@@ -1,0 +1,82 @@
+<div class="loading-block col-12" *ngIf="polling">
+  <div class="text-center">
+    <img class="loader-image" src="../../../assets/images/logo.svg" alt="Voyaah Logo" />
+  </div>
+  <div class="message text-center">
+    <!-- Your payment is received, please wait while we confirm your booking -->
+    Please wait while we process your booking
+  </div>
+  <div class="mx-auto preloader">
+    <i>.</i>
+    <i>.</i>
+    <i>.</i>
+  </div>
+</div>
+
+<ion-content class="background_color" *ngIf="!polling">
+  <ion-grid class="card-body">
+    <ion-row>
+      <ion-col>
+        <h2 class="tran-summary">Transaction Summary</h2>
+      </ion-col>
+    </ion-row>
+    <ion-row class="pt-3" *ngIf="(transactionStatus=='completedSuccess')">
+      <ion-col class="text-justify">
+            <p class="conform_text">Your booking with Voyaah is successful. Thank you for choosing Voyaah
+              as your travel partner. Go to My Account to see your bookings
+            </p>
+        <ion-row>
+          <ion-col class="p-0 col-6 col-md-4">
+            <ion-text class="conform_text">Transaction ID:</ion-text>
+          </ion-col>
+          <ion-col class="p-0 col-6 col-md-3">
+            <ion-text class="conform_text">{{paymentDetails.txid}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="p-0 col-6 col-md-4">
+            <ion-text class="conform_text">Booking Reference:</ion-text>
+          </ion-col>
+          <ion-col class="p-0 col-6 col-md-3">
+            <ion-text class="conform_text">{{totalTransaction.bookingReference}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="pt-3">
+          <ion-col>
+            <button class="btn btn-theme btn_hover btn_focus_bg_clr" [routerLink]="['/myaccount/staycation-bookings']">My Account</button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="pt-3" *ngIf="(transactionStatus=='completedFailed')">
+      <ion-col>
+        <ion-row>
+          <ion-col>
+            <p class="conform_text">Your booking is failed Go to Staycations to try again</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="p-0 col-6 col-md-4">
+            <ion-text class="conform_text">Transaction ID:</ion-text>
+          </ion-col>
+          <ion-col class="p-0 col-6 col-md-3">
+            <ion-text class="conform_text">{{paymentDetails.txid}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="p-0 col-6 col-md-4">
+            <ion-text class="conform_text">Booking Reference:</ion-text>
+          </ion-col>
+          <ion-col class="p-0 col-6 col-md-3">
+            <ion-text class="conform_text">{{totalTransaction.bookingReference}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="pt-3">
+          <ion-col>
+            <button class="btn btn-theme" [routerLink]="['/staycation']">Staycation</button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

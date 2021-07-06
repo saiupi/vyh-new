@@ -1,0 +1,46 @@
+<ion-content class="background_color">
+
+    <!--  <div class="no-gutters">
+      <br />
+    <p class="conform_text">Your booking with voyaah is Aborted Go to <a *ngIf="bookingType == 'staycation'"
+        [routerLink]="['/staycation']"><span class="account_colour">Staycations</span></a>
+      <a *ngIf="bookingType == 'custom-travel'" [routerLink]="['/preview']"><span
+          class="account_colour">Preview</span></a>
+    </p>
+
+  </div> -->
+  <br />
+  <br />
+  <br />
+  <div class="content">
+    <div class="row float-right" >
+      <div class="col-lg-6">
+        <img src="../../../../assets/images/Group 134292.svg" class="cancel_img" />
+      </div>
+      <div class="col-lg-6 float-right p-0">
+        <div *ngIf="bookingType.reason?.length>0">
+          <p class="cancel_msg">Your transaction is canceled due to following reason:</p>
+          <ul class="cancel_res">
+            <li>
+              {{bookingType.reason}}
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="bookingType.reason?.length == 0">
+          <p class="cancel_msg">Your transaction is cancelled  </p>
+        </div>
+        <br/>
+        <p class="rebook">Click  <a *ngIf="bookingType.merchantParam == 'staycation'"
+          (click)="clearStorage()" [routerLink]="['/staycation']"><span class="account_colour">here</span></a>
+        <a *ngIf="bookingType.merchantParam == 'custom-travel'" (click)="clearStorage()" [routerLink]="['/preview']"><span
+            class="account_colour">here</span></a> to book your trip again.</p>
+
+
+
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+

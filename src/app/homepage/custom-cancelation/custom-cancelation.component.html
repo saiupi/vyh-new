@@ -1,0 +1,818 @@
+<ion-content class="background_color_body">
+  <div  class="before_cancel">
+  </div>
+  <div class="container negative_margin">
+    <div class="row no-gutters">
+      <div class="col-12 mb-3">
+        <span class="text-bold text-white header_text" >Edit your booking</span>
+      </div>
+      <div class="col-md-9 pr_2 mb-2">
+        <div class="col-12 bg-white crd_style p-0">
+          <div class="bg-white fixed_height mx-2">
+            <div class="row h-100">
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 py-2 pr-sm-2 h-100">
+                  <img src="{{activityCoverImg}}"
+                    onerror="this.src='../../../../assets/images/Group 67292.png'" class="h_100 w-100"/>
+              </div>
+              <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 pl_0">
+                <div class="mt-2 px-2">
+                  <div *ngFor="let details of previewItenaryDetails;let j=index"
+                  class="cityname_style">
+                  <ion-label color="tertiary" class="city_name">{{details.cityName}}<span
+                      *ngIf="previewItenaryDetails?.length>1">,</span></ion-label>
+                </div>
+                  <p>
+                    <ion-note color="medium">
+                      <img width="16px" height="16px" src="../../../../assets/images/Artwork 1.svg" />
+                      <span *ngFor="let country of getUpcomingCountry();let j=index">{{country}}<span
+                          *ngIf="getUpcomingCountry()?.length>1">,</span></span>
+                    </ion-note>
+                  </p>
+                  <div>
+                    <div class="row pl-3 mb-3">
+                      <div class="midle-div-size">
+                        <img class="w-100 h-100 bdr_radius" src="{{activityCoverImg2}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                      </div>
+                      <div class="midle-div-size ml-2">
+                        <img class="w-100 h-100 bdr_radius" src="{{sideImg0}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                      </div>
+                      <div class="midle-div-size ml-2">
+                        <img class="w-100 h-100 bdr_radius" src="{{sideImg1}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                      </div>
+                      <div class="midle-div-size ml-2">
+                        <img class="w-100 h-100 bdr_radius" src="{{sideImg2}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                      </div>
+                    </div>
+                    <ion-note color="medium" class="mr-3" *ngIf="noOfAdults == 1" >{{noOfAdults}} adult</ion-note>
+                    <ion-note color="medium" class="mr-3" *ngIf="noOfAdults != 1" >{{noOfAdults}} adults</ion-note>
+                    <ion-note color="medium">
+                      {{ startDate | date: 'EEE,dd LLL yyyy'}}
+                    </ion-note>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 bg-white crd_style p-0 mt-2"  *ngIf="userDetails.firstName?.length>0">
+          <div class=" p-3">
+            <ion-text class="primary_header d-block">Primary Contact</ion-text>
+            <p class="contact_count">We will contact you on this number. You can email or whatsapp the ticket to
+              other contacts.</p>
+            <hr class="line_contact" />
+            <ion-grid class="mobile_screen_resp_none">
+              <ion-row>
+                <ion-col size="4">
+                  <div>
+                    <ion-icon name="person" class="Size_contact mt-2"></ion-icon>
+                    &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.firstName}}</span>
+                  </div>
+                </ion-col>
+                <ion-col size="4">
+                  <div>
+                    <ion-icon name="mail" class="Size_contact  mt-2"></ion-icon>
+                    &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.email}}</span>
+                  </div>
+                </ion-col>
+                <ion-col size="4">
+                  <div>
+                    <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                    &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.mobileNo}}</span>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-grid class="mobile_screen_resp">
+              <ion-row>
+                <ion-col size="12">
+                  <div>
+                    <ion-icon name="person" class="Size_contact mt-2"></ion-icon>
+                    &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.firstName}}</span>
+                  </div>
+                </ion-col>
+                <ion-col size="12">
+                  <div>
+                    <ion-icon name="mail" class="Size_contact  mt-2"></ion-icon>
+                    &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.email}}</span>
+                  </div>
+                </ion-col>
+                <ion-col size="12">
+                  <div>
+                    <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                    &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.mobileNo}}</span>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </div>
+        <div class="col-12 bg-white crd_style p-0 mt-2 mb-3" >
+          <span class="card_header txt_clr_primary d-block p_custom">Select Your Preferred Cancellation</span>
+          <!-- <span class="amt txt_clr_primary d-block p-2"> <input class="cursor_pointer" (click)="cancelall($event)"
+            type="checkbox"> Check-IN here to select all your orders</span> -->
+
+            <div *ngFor="let f of flightsData; let i=index"
+               class="Center_content mt-3"  >
+                <ion-row *ngIf="f.tripDetails?.itineraryInfo?.reservationItem?.length>0 && flightErrorMessage!=='CANCELLED'">
+                      <ion-col class="fl_card_line2 position-relative">
+                        <ion-card class="bg-white text-dark  cursor_pointer flt_card lg_dsplay" (click)="cancelFlights(f,i)">
+                          <img
+                          src="../../../assets/images/Group 51623.png"
+                          class="select_bar img-fliud"
+                          [ngClass]="f.isCancel ? 'selectbar_display' : ''"
+                        />
+                          <ion-grid class="container-fluid">
+                            <ion-row class="row">
+                              <ion-col class="d-flex col-10 mb-2" size="10">
+                                <div class="d-inline">
+                                <img src="{{ f.tripDetails?.itineraryInfo?.reservationItem[0].airlineInfo.logoURL }}"
+                                class="img-fluid pr-2" />
+                              <ion-text class="text-dark pr-2 airline_name position-relative"
+                              >{{f.tripDetails?.itineraryInfo?.reservationItem[0].airlineInfo.name }}</ion-text>
+                              <span *ngIf="f.ticketRefNumber?.length>0">
+                                      </span>
+                                  </div>
+                              </ion-col>
+                              <!-- <ion-col class="d-flex col-2 mb-2 flight_fare" size="2">
+                                {{f.fareDetails.totalFare.amount | currency:"₹ " :
+                                false : '2.0-0'}}</ion-col> -->
+                            </ion-row>
+                              <ion-row class="row">
+                              <ion-col class="col-md-4 col-6 mb_sm">
+                                <ion-text class="d-block frm_to">{{
+                                  f.flightSegments[0]
+                                  .departureAirportLocationCode
+                                  }}
+                                  {{
+                                  f.flightSegments[0].airlineInfo
+                                  .departureCity
+                                  }}</ion-text>
+                                <ion-text class="d-block time">{{
+                                  f.flightSegments[0]
+                                  .departureDateTime | slice: 11:16
+                                  }}</ion-text>
+                              </ion-col>
+                              <ion-col class="col-md-3 col-6">
+                                <ion-text class="d-block text-center frm_to">
+                                  <ion-icon name="timer-outline"></ion-icon>
+                                </ion-text>
+                                <ion-text class="d-block text-center time">{{
+                                  f | totalDuration | durationPipe
+                                  }}</ion-text>
+                              </ion-col>
+                              <ion-col class="col-md-5 col-6 mb_sm">
+                                <div>
+                                  <ion-text class="d-block frm_to">{{
+                                    f.flightSegments[
+                                    f.flightSegments?.length - 1
+                                    ].arrivalAirportLocationCode
+                                    }}
+                                    {{
+                                    f.flightSegments[
+                                    f.flightSegments?.length - 1
+                                    ].airlineInfo.arrivalCity
+                                    }}</ion-text>
+                                    <ion-text class="d-block time">{{
+                                      f.flightSegments[
+                                      f.flightSegments?.length - 1
+                                      ].arrivalDateTime | slice: 11:16
+                                      }}</ion-text>
+                                </div>
+
+                              </ion-col>
+                              <ion-col size="12" class="pr-md-4 mt-2 mb-2 d-flex justify-content-between">
+                                <div class="p-0 pl-md-5">
+                                  <ion-text class="fnt_sze_13 position-relative stops mr-3" *ngFor="
+                                  let s of f.tripDetails?.itineraryInfo?.reservationItem
+                                ">{{ s.departureAirportLocationCode }}</ion-text>
+                          <ion-text class="fnt_sze_13 position-relative mr-3">{{
+                            f.flightSegments[
+                            f.flightSegments?.length - 1
+                            ].arrivalAirportLocationCode
+                            }}</ion-text>
+                                </div>
+
+                                <ion-text class="fnt_sze_13">{{
+                                  f.flightSegments?.length - 1
+                                  }}
+                                  stop(s)</ion-text>
+                                <ion-text class="flt_dtls cursor-pointer collapsed" data-toggle="collapse"
+                                  [attr.data-target]="'#collapse-' + i">Flight Details
+                                  <ion-text class="position-relative">
+                                    <ion-icon name="chevron-up-outline" class="chiv_symbol">
+                                    </ion-icon>
+                                  </ion-text>
+                                </ion-text>
+                              </ion-col>
+                            </ion-row>
+                            <ion-row>
+                              <ion-text class="text-danger text-justify">{{flightErrorMessage}}</ion-text>
+                            </ion-row>
+                          </ion-grid>
+
+                          <div class="no-gutters connecting_flights collapse" [attr.id]="'collapse-' + i">
+                            <div class="pb-3">
+                              <ion-grid class="container-fluid pt-3" *ngFor="
+                                      let p of  f.tripDetails?.itineraryInfo?.reservationItem;
+                                      let flightsegment_index = index
+                                    ">
+                                <ion-row class="row">
+                                  <ion-col class="d-flex col-12 mb-3" size="12">
+                                    <div class="d-inline aero_name">
+                                      <img src="{{ p.airlineInfo.logoURL }}" class="img-fluid" />
+                                      <ion-text class="text-dark pl-2">{{
+                                        p.airlineInfo.name
+                                        }}</ion-text>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col class="col-md-4 col-6 mb_sm">
+                                    <ion-text class="d-block frm_to">{{ p.departureAirportLocationCode }}
+                                      {{ p.departureDateTime | date: 'HH:mm' }}</ion-text>
+                                    <ion-text class="d-block time">{{
+                                      p.departureDateTime | date: 'EEE,dd LLL yyyy'
+                                      }}</ion-text>
+                                  </ion-col>
+                                  <ion-col class="col-md-3 col-6">
+                                    <ion-text class="d-block text-center frm_to">
+                                      <ion-icon name="timer-outline"></ion-icon>
+                                    </ion-text>
+                                    <ion-text class="d-block text-center time">{{
+                                      p.journeyDuration | toNumber | durationPipe
+                                      }}</ion-text>
+                                  </ion-col>
+                                  <ion-col class="col-md-5 col-6 mb_sm">
+                                    <ion-text class="d-block frm_to">{{ p.arrivalAirportLocationCode }}
+                                      {{ p.arrivalDateTime | date: 'HH:mm' }}</ion-text>
+                                    <ion-text class="d-block time">{{
+                                      p.arrivalDateTime | date: 'EEE,dd LLL yyyy'
+                                      }}</ion-text>
+                                  </ion-col>
+                                  <span class="flight_bookdetails"><span *ngIf="p.flightNumber?.length>0">
+                                    Flight number: {{p.flightNumber}}</span>
+                                    &nbsp;&nbsp;|&nbsp;&nbsp;<span *ngIf="p.airlinePNR?.length>0">
+                                      Airline PNR: {{p.airlinePNR}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                      <span *ngIf="p.baggage?.length>0">Baggage: {{p.baggage}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                      <span *ngIf="p.cabinClassText?.length>0">Cabin class text: {{p.cabinClassText}}</span></span>
+                                </ion-row>
+                                <div class="text-center short_layover_div position-relative" *ngIf="
+                                        flightsegment_index !=
+                                        f.flightSegments?.length - 1
+                                      ">
+                                  <ion-text class="text-dark short_layover_text">Layover
+                                    {{
+                                    diff(
+                                    p.arrivalDateTime,
+                                    f.flightSegments[
+                                    flightsegment_index + 1
+                                    ]?.departureDateTime
+                                    )
+                                    }}</ion-text>
+                                </div>
+                              </ion-grid>
+                            </div>
+                          </div>
+                        </ion-card>
+
+                        <ion-card class="bg-white text-dark mb-2 ml-2 mr-2 flt_card sm_dsplay" (click)="cancelFlights(f,i)">
+                          <ion-icon name="stop-outline" class="select_bar"
+                          [ngClass]="f.isCancel ? '' : 'selectbar_display'"></ion-icon>
+                          <img
+                          src="../../../assets/images/Group 51623.png"
+                          class="select_bar img-fliud"
+                          [ngClass]="f.isCancel ? 'selectbar_display' : ''"
+                        />
+                          <ion-grid class="container-fluid">
+                            <ion-row class="row p-2">
+                              <ion-col class="d-flex col-12 mb-2 p-0" size="12">
+                                <div class="d-inline aero_name">
+                                  <img src="{{ f.tripDetails?.itineraryInfo?.reservationItem[0].airlineInfo.logoURL }}"
+                                   class="img-fluid pr-2" />
+                                  <ion-text class="text-dark pr-2 airline_name position-relative"
+                                  >{{ f.tripDetails?.itineraryInfo?.reservationItem[0].airlineInfo.name }}
+                                  </ion-text>
+                                </div>
+                              </ion-col>
+                              <ion-col size="6">
+                                <ion-text class="d-block frm_to">{{
+                                  f.flightSegments[0]
+                                  .departureAirportLocationCode
+                                  }}
+                                  {{
+                                  f.flightSegments[0].airlineInfo
+                                  .departureCity
+                                  }}</ion-text>
+                              </ion-col>
+                              <ion-col size="6" class="text-right">
+                                <ion-text class="d-block frm_to">{{
+                                  f.flightSegments[
+                                  f.flightSegments?.length - 1
+                                  ].arrivalAirportLocationCode
+                                  }}
+                                  {{
+                                  f.flightSegments[
+                                  f.flightSegments?.length - 1
+                                  ].airlineInfo.arrivalCity
+                                  }}</ion-text>
+                              </ion-col>
+                              <ion-col class="d-flex" size="12">
+                                <div>
+                                  <ion-text class="d-inine time">{{
+                                   f.flightSegments[0]
+                                    .departureDateTime | slice: 11:16
+                                    }}</ion-text>
+                                </div>
+                                <div class="flex-grow-1 text-center position-relative z_0">
+                                  <ion-text class="d-inline time pr-1 frm_to lft_lne bg-white z_2">
+                                    <ion-icon name="timer-outline"></ion-icon>
+                                  </ion-text>
+                                  <ion-text class="d-inline time rt_lne bg-white pr-1 z_2">{{
+                                    f
+                                    | totalDuration
+                                    | durationPipe
+                                    }}</ion-text>
+                                </div>
+                                <div>
+                                  <ion-text class="d-block time">{{
+                                    f.flightSegments[
+                                    f.flightSegments?.length - 1
+                                    ].arrivalDateTime | slice: 11:16
+                                    }}</ion-text>
+                                </div>
+                              </ion-col>
+                              <ion-col size="12" class="mt-2 d-flex justify-content-between">
+                                <div class="p-0">
+                                <ion-text class="fnt_sze_13 position-relative stops mr-3" *ngFor="
+                                        let s of f.flightSegments
+                                      ">{{ s.departureAirportLocationCode }}</ion-text>
+                                <ion-text class="fnt_sze_13 position-relative mr-3">{{
+                                  f.flightSegments[
+                                  f.flightSegments?.length - 1
+                                  ].arrivalAirportLocationCode
+                                  }}</ion-text>
+                                </div>
+                                <ion-text class="fnt_sze_13">{{
+                                  f.flightSegments?.length - 1
+                                  }}
+                                  stop(s)</ion-text>
+                                <ion-text class="flt_dtls cursor-pointer collapsed pr-2" data-toggle="collapse"
+                                  [attr.data-target]="'#collapse-' + i">Flight Details
+                                  <ion-text class="position-relative">
+                                    <ion-icon name="chevron-up-outline" class="chiv_symbol"></ion-icon>
+                                  </ion-text>
+                                </ion-text>
+                              </ion-col>
+                            </ion-row>
+                            <ion-row>
+                              <ion-text class="text-danger text-justify">{{flightErrorMessage}}</ion-text>
+                            </ion-row>
+                          </ion-grid>
+                          <div class="no-gutters connecting_flights collapse" [attr.id]="'collapse-' + i">
+                            <div class="pb-3">
+                              <ion-grid class="container-fluid" *ngFor="
+                                      let t of  f.tripDetails?.itineraryInfo?.reservationItem;
+                                      let flightsegment_index = index
+                                    ">
+                                <ion-row class="row p-0">
+                                  <ion-col class="d-flex col-12 mb-2 p-2" size="12">
+                                    <div class="d-inline aero_name">
+                                      <img src="{{ t.airlineInfo.logoURL }}" class="img-fluid" />
+                                      <ion-text class="text-dark pl-2">{{
+                                        t.airlineInfo.name
+                                        }}</ion-text>
+                                    </div>
+                                  </ion-col>
+                                  <ion-col size="6" class="pl-2">
+                                    <ion-text class="d-block frm_to">{{ f.departureAirportLocationCode }}
+                                      {{ t.departureDateTime | date: 'HH:mm' }}</ion-text>
+                                  </ion-col>
+                                  <ion-col size="6" class="text-right pr-2">
+                                    <ion-text class="d-block frm_to">{{ f.arrivalAirportLocationCode }}
+                                      {{ t.arrivalDateTime | date: 'HH:mm' }}</ion-text>
+                                  </ion-col>
+                                  <ion-col class="d-flex p-2" size="12">
+                                    <div>
+                                      <ion-text class="d-inine sm_time">{{
+                                        t.departureDateTime | date: 'EEE,dd LLL yyyy'
+                                        }}</ion-text>
+                                    </div>
+                                    <div class="flex-grow-1 text-center position-relative z_0">
+                                      <ion-text class="d-inline pr-1 frm_to sm_time lft_lne z_2 back_color3">
+                                        <ion-icon name="timer-outline"></ion-icon>
+                                      </ion-text>
+                                      <ion-text class="d-inline sm_time rt_lne pr-1 z_2 back_color3">{{
+                                        t.journeyDuration | toNumber | durationPipe
+                                        }}</ion-text>
+                                    </div>
+                                    <div>
+                                      <ion-text class="d-block sm_time text-right">{{
+                                        t.arrivalDateTime | date: 'EEE,dd LLL yyyy'
+                                        }}</ion-text>
+                                    </div>
+                                  </ion-col>
+                                  <span class="flight_bookdetails"><span *ngIf="t.flightNumber?.length>0">
+                                    Flight number: {{t.flightNumber}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <span *ngIf="t.airlinePNR?.length>0">Airline PNR: {{t.airlinePNR}}</span>
+                                    &nbsp;&nbsp;|&nbsp;&nbsp;<span *ngIf="t.baggage?.length>0">Baggage: {{t.baggage}}</span>
+                                    &nbsp;&nbsp;|&nbsp;&nbsp;<span *ngIf="t.cabinClassText?.length>0">
+                                      Cabin class text: {{t.cabinClassText}}</span></span>
+                                  <div class="col-12 text-center short_layover_div position-relative" *ngIf="
+                                          flightsegment_index !=
+                                          f.flightSegments?.length - 1
+                                        ">
+                                    <ion-text class="text-dark short_layover_text">Layover
+                                      {{
+                                      diff(
+                                      t.arrivalDateTime,
+                                      f.flightSegments[
+                                      flightsegment_index + 1
+                                      ]?.departureDateTime
+                                      )
+                                      }}</ion-text>
+                                  </div>
+                                </ion-row>
+                              </ion-grid>
+                            </div>
+                          </div>
+                        </ion-card>
+                      </ion-col>
+
+                </ion-row>
+              </div>
+
+              <div class="m-0 summary_pad  " *ngFor="let h of hotelData; let i=index" >
+                <div *ngIf="h.hotelContent?.address?.length>0 && hotelErrorMessage!=='CANCELLED'" (click)="cancelHotels(h,i)"
+                  class="cardstyle position-relative  p-1 cursor_pointer bg-white ">
+                  <div class="d-flex no-gutters">
+                    <ion-icon name="stop-outline" class="select_bar"
+                    [ngClass]="h.isCancel ? '' : 'selectbar_display'"></ion-icon>
+                    <img
+                    src="../../../assets/images/Group 51623.png"
+                    class="select_bar img-fliud"
+                    [ngClass]="h.isCancel ? 'selectbar_display' : ''"
+                  />
+                    <div class="p-0 text-left">
+                      <img src="../../../assets/images/hotel-shade.svg" class="hotel_img" />
+                    </div>
+                    <div class="flex-grow-1 pr-0 pl-2 pt-0 pb-0 position-relative">
+                      <ion-row>
+                        <ion-col class="hotel_text mt-md-2" size="12">
+                          <span class="dates_size_activites">{{h.bookingDetails.roomBookDetails.checkIn|date:'MMMM d,
+                            y'}}&nbsp;-&nbsp;{{h.bookingDetails.roomBookDetails.checkOut|date:'MMMM d, y'}}</span><br />
+                          {{h.hotelContent.name}}
+                        </ion-col>
+                        <p class="hotel_belowtext m-0">{{ h.hotelContent?.address }},{{
+                          h.hotelContent?.phoneNumbers }}</p>
+                          <!-- <div>
+                            Policy
+                          </div> -->
+                      </ion-row>
+                      <ion-row>
+                        <ion-text class="text-danger text-justify">{{hotelErrorMessage}}</ion-text>
+                      </ion-row>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="m-0 summary_pad  position-relative"  *ngFor="let a of activityData; let i=index" >
+                <div class="cardstyle cursor_pointer p-1  mt-3 mb-3 bg-white "
+                (click)="cancelActivities(a,i)">
+
+                  <div class="d-flex no-gutters position-relative"  >
+                    <ion-icon name="stop-outline" class="select_bar" [ngClass]="a.isCancel ? '' : 'selectbar_display'"></ion-icon>
+                    <img
+                    src="../../../assets/images/Group 51623.png"
+                    class="select_bar img-fliud"
+                    [ngClass]="a.isCancel ? 'selectbar_display' : ''"
+                  />
+                    <div class="p-0 text-left">
+                      <img src="../../../assets/images/activity-shade.svg" class="hotel_img" />
+                    </div>
+                    <div class="flex-grow-1 pr-0 pl-2 pt-0 pb-0 position-relative">
+                      <ion-row>
+                        <ion-col class="hotel_text mt-md-2" size="12">
+                          <span class="dates_size_activites">{{a.activityDate|date:'MMMM d, y'}} at {{a.time}}</span><br />
+                          {{a.activityName}}
+                        </ion-col>
+                        <div class="hotel_belowtext">
+                          <!-- {{a.activityData.description}} -->
+                          <div *ngIf="!a.showMore">
+                            {{trimString(a.description,70)}}
+                            <a (click)="a.showMore = !a.showMore" class="cursor-pointer">Show <span
+                                [innerHtml]="a.showMore ? 'less' : 'More'"> </span>
+                            </a>
+                          </div>
+                          <div *ngIf="a.showMore">
+                            {{a.description}}
+                            <a (click)="a.showMore = !a.showMore" class="cursor-pointer">Show<span
+                                [innerHtml]="a.showMore ? 'less' : 'More'"> </span>
+                            </a>
+                          </div>
+                          <!-- <p>Policy</p> -->
+                        </div>
+                      </ion-row>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <br/>
+        </div>
+      </div>
+      <div class="col-md-3 ">
+        <div class="bg-white crd_style">
+          <div class=" col-12  p-2">
+            <div class="menuItem" >
+                <div class="card_header  txt_clr_primary d-inline-block col-md-6 p-0">
+                  Price Breakup
+                </div>
+                <div class="menuItemPrice text-styles2346  pull-right text-right col-md-6 p-0" (click)="cancelPolicies()">
+                  Cancel Policies
+                </div>
+            </div>
+          </div>
+
+          <div class="col-12 p-2">
+            <div class="menuItem mt-2" *ngIf="(bookingDetails|flightsPricePipe:'totalFare')!=0">
+              <div class="menuItemTitle col-md-6 p-0">
+                Flight Price
+              </div>
+              <div class="menuItemPrice pull-right text-right col-md-6 p-0">
+                {{ bookingDetails|flightsPricePipe:'totalFare' | currency:"₹ " : false
+                :
+                '2.0-0'}}
+              </div>
+            </div>
+          </div>
+
+          <div class=" col-12  p-2">
+            <div class="menuItem" *ngIf="(bookingDetails?.dayPlanner|hotelsPricePipe)!=0">
+              <div class="menuItemTitle col-md-6 p-0">
+                Hotel Price
+              </div>
+              <div class="menuItemPrice  pull-right text-right col-md-6 p-0">
+                {{ bookingDetails?.dayPlanner| hotelsPricePipe | currency:"₹ " : false : '2.0-0' }}
+              </div>
+            </div>
+          </div>
+
+          <div class=" col-12 p-2">
+            <div class="menuItem" *ngIf="(bookingDetails?.dayPlanner|activityPricePipe)!=0">
+              <div class="menuItemTitle col-md-6 p-0">
+                Activity Price
+              </div>
+              <div class="menuItemPrice pull-right text-right col-md-6 p-0">
+                {{ bookingDetails?.dayPlanner| activityPricePipe | currency:"₹ " : false : '2.0-0'
+              }}
+              </div>
+            </div>
+          </div>
+          <hr class="hrstyles" />
+          <div class=" col-12 p-2">
+            <div class="menuItem" >
+              <div class="menuItemTitle bolder_text col-md-6 p-0">
+                Total Paid
+              </div>
+              <div class="menuItemPrice bolder_text pull-right text-right col-md-6 p-0">
+                {{ bookingDetails | totalPricePipe | currency:"₹ " : false : '2.0-0'
+              }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="mt-2">
+          <div class="ion-text-center mt-3 mb-3">
+            <p class="text-styles2345 p-0">By proceeding, you agree to our <span (click)="navigatetopolicies()"
+              class="text-styles2346 ">Policies</span></p>
+            <ion-button  *ngIf="cancelbuttonstatus"
+            color="tertiary" class="mb-3 cancel_Booking" (click)="cancellationprocess()" shape="round">
+            Cancel Booking
+            </ion-button>
+            <ion-button  *ngIf="!cancelbuttonstatus"
+             color="medium" class="mb-3 cancel_Booking" (click)="cancellationprocess()" shape="round">
+              Cancel Booking
+              </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="modelbody">
+    <div class="blur-box spinner_overlay"></div>
+    <div class="center_image">
+      <div class="card pay_center card_Size_245" >
+        <div style="border-radius: 10px">
+          <div class="fail_trip_color">
+            <div class="modal-body fail_trip_head" >
+              <div class="container col-12">
+                <div class="row">
+                  <div class="model_head_styles col-md-6  text-left">
+                    Cancel Request
+                  </div>
+                  <div class=" pull-right text-right  col-md-6 ">
+                    <ion-icon name="close-circle-outline" class="cursor_pointer"
+                    data-dismiss="modal" size="large" (click)="closeModel()" ></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body fail_trip_head" >
+              <h3 class="fail_trip_font1">Are you sure want to Cancel?</h3>
+              <button class="trip_button fail_trip_font1" (click)="proceedapi()"  >
+              Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="cancelPoliciesstatus">
+    <div class="blur-box spinner_overlay"></div>
+    <div class="center_image">
+      <div class="card pay_center card_Size_245" >
+        <div style="border-radius: 10px">
+          <div class="fail_trip_color">
+            <div class="modal-body fail_trip_head" >
+              <div class="container col-12">
+                <div class="row">
+                  <div class="model_head_styles col-md-6  text-left">
+                    Cancel Policies
+                  </div>
+                  <div class=" pull-right text-right  col-md-6 ">
+                    <ion-icon name="close-circle-outline" class="cursor_pointer"
+                    data-dismiss="modal" size="large" (click)="closecancelPolicies()" ></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body modal_body_styles" >
+              <div *ngIf="flightsData.length != 0">
+                <div class="title_styles">
+                  Flight Policy
+                </div>
+                <div class="data_styles">
+                  <ul class="mb-0 pl-4" >
+                    <li class="text-justify" *ngFor="let f of flightsData"
+                    > <div [innerHTML]="f.flightPolicies?.fareRulesResult?.fareRules[0]?.rules"></div></li>
+                  </ul>
+                </div>
+              </div>
+              <div *ngIf="hotelData.length != 0">
+                <div class="title_styles">
+                  Hotel Policy
+                </div>
+                <div class="data_styles" >
+                  <ul class="mb-0 pl-4" >
+                    <li class="text-justify" *ngFor="let h of hotelData"
+                    > {{h.selectedRoom.cancellationPolicy}}</li>
+                  </ul>
+                </div>
+              </div>
+              <div *ngIf="activityData.length != 0">
+                <div class="title_styles">
+                  Activity Policy
+                </div>
+                <div class="data_styles" *ngFor="let a of activityData">
+                  <ul class="mb-0 pl-4" >
+                    <li class="text-justify" *ngFor="let i of a.refundPolicies"
+                    >If you cancel before {{i.period}} you will get {{i.value}} % refund.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="modelbodyflight">
+    <div class="blur-box spinner_overlay"></div>
+    <div class="center_image">
+      <div class="card pay_center card_Size_245" >
+        <div style="border-radius: 10px">
+          <div class="fail_trip_color">
+            <div class="modal-body fail_trip_head" >
+              <div class="container col-12">
+                <div class="row">
+                  <div class="model_head_styles col-md-6  text-left">
+                  flight Cancel Request
+                  </div>
+                  <div class=" pull-right text-right  col-md-6 ">
+                    <ion-icon name="close-circle-outline" class="cursor_pointer"
+                    data-dismiss="modal" size="large" (click)="closeModelflight()" ></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body fail_trip_head" >
+              <div *ngIf="flightsData.length != 0">
+              <div [innerHTML]="flightcancelpolicy?.fareRulesResult?.fareRules[0]?.rules">
+              </div>
+              </div>
+              <h3 class="fail_trip_font1">
+                <input type="checkbox" class=" checkbox_color form-check-input mt-2 mr-2" (click)="acceptflightCanl($event)"/>
+              I agree to the policy terms</h3>
+              <button class="trip_button fail_trip_font1" (click)="closeModelflight()"  >
+              Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="modelbodyhotel">
+    <div class="blur-box spinner_overlay"></div>
+    <div class="center_image">
+      <div class="card pay_center card_Size_245" >
+        <div style="border-radius: 10px">
+          <div class="fail_trip_color">
+            <div class="modal-body fail_trip_head" >
+              <div class="container col-12">
+                <div class="row">
+                  <div class="model_head_styles col-md-6  text-left">
+                    Hotel Cancel Request
+                  </div>
+                  <div class=" pull-right text-right  col-md-6 ">
+                    <ion-icon name="close-circle-outline" class="cursor_pointer"
+                    data-dismiss="modal" size="large" (click)="closeModelhotel()" ></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body fail_trip_head">
+              <div *ngIf="hotelData.length != 0">
+                <div class="data_styles" >
+                    <p class="text-center"> {{hotelcancelpolicy}}</p>
+                </div>
+              </div>
+              <h3 class="fail_trip_font1">
+              <input type="checkbox"
+              class=" checkbox_color form-check-input mt-2 mr-2"
+              (click)="accepthotelCanl($event)"/>
+              I agree to the policy terms</h3>
+              <button class="trip_button fail_trip_font1" (click)="closeModelhotel()">
+              Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="modelbodyactivity">
+    <div class="blur-box spinner_overlay"></div>
+    <div class="center_image">
+      <div class="card pay_center card_Size_245" >
+        <div style="border-radius: 10px">
+          <div class="fail_trip_color">
+            <div class="modal-body fail_trip_head" >
+              <div class="container col-12">
+                <div class="row">
+                  <div class="model_head_styles col-md-6  text-left">
+                  Activity Cancel Request
+                  </div>
+                  <div class=" pull-right text-right  col-md-6 ">
+                    <ion-icon name="close-circle-outline" class="cursor_pointer"
+                    data-dismiss="modal" size="large" (click)="closeModelactivity()" ></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body fail_trip_head">
+              <div *ngIf="activityData.length != 0">
+                <div class="data_styles" >
+                    <p class="text-center" *ngFor="let i of activitycancelpolicy"
+                    >If you cancel before {{i.period}} you will get {{i.value}} % refund.</p>
+                </div>
+              </div>
+              <h3 class="fail_trip_font1">
+              <input type="checkbox"
+              class=" checkbox_color form-check-input mt-2 mr-2" (click)="acceptactivityCanl($event)"/>
+               I agree to the policy terms</h3>
+              <button class="trip_button fail_trip_font1" (click)="closeModelactivity()"  >
+              Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </ion-content>

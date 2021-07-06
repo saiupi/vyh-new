@@ -1,0 +1,436 @@
+$primary-color: #265359;
+$secondary-color: #fbfaf8;
+$third-colour: #707070;
+$fourth-color: #efe3e3;
+.text_primary {
+  color: $primary-color;
+  font-size: 20px;
+}
+.font-size-header {
+  font-size: 12px;
+}
+.top_close_btn {
+  position: absolute;
+  right: 14px;
+  top: 20px;
+  font-size: 16px;
+  color: $primary-color;
+}
+.fa_lg_button {
+  font-size: 20px;
+}
+.modal-dialog-postions {
+  position: fixed;
+  // bottom: 47px;
+  right: 0px;
+  border-radius: 20px 0 0 0 !important;
+  // border-top-left-radius: 35px 20px;
+  margin: 0px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.modal-dialog .moda-content-border {
+  // border-top-left-radius: 35px 20px;
+  height: 100%;
+  width: 375px;
+  border-radius: 20px 0 0 0 !important;
+}
+.shadow {
+  box-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.15) !important;
+  // border-top-left-radius: 31px;
+}
+.modal_background {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.add_passport_link{
+  padding: 7px 0 0 7px;
+}
+.font-16 {
+  font-size: 16px;
+}
+.modal_close {
+  top: 8px;
+  right: 8px;
+  font-size: 22px;
+  color: $primary-color;
+}
+.add {
+  color: $primary-color;
+  font-weight: 600;
+  font-size: 15px;
+}
+.main_div {
+  background-color: $secondary-color;
+  height: 100%;
+  padding: 2% 8%;
+  overflow: auto;
+}
+.primary_header {
+  color: $primary-color;
+  font-size: 20px;
+}
+.clear_link {
+  color: $primary-color;
+  margin-right: 80px;
+  cursor: pointer;
+}
+.clear_link:hover {
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+.move_check {
+  margin-left: -17px;
+}
+// .ios .primary_header {
+//   color: $primary-color;
+//   font-size: 20px;
+//   font-weight: 600;
+//   margin-top: -15px;
+// }
+
+// .ios.Size_backicon {
+//   font-size: 30px;
+//   cursor: pointer;
+//   color: #265359;
+//   margin-left: -12px;
+//   margin-bottom: -10px;
+// }
+
+​​​​​​​​ .primary_header_small {
+  color: $primary-color;
+  font-size: 16px;
+  font-weight: 300;
+}
+.travellers_count {
+  color: $third-colour;
+  font-size: 15px;
+}
+.contact_count {
+  color: $primary-color;
+  font-size: 12px;
+  font-style: italic;
+}
+.add_profile {
+  color: #0000ff;
+  cursor: pointer;
+}
+.add_profile:hover {
+  color: #0000ff;
+  text-decoration: underline;
+}
+.line_contact {
+  width: 100%;
+}
+.main_chiv_symbol {
+  font-size: 25px;
+  color: #b7b7b7;
+  transition: 0.5s;
+  margin-left: -60px;
+}
+.collapsed .main_chiv_symbol {
+  transform: rotate(180deg);
+}
+
+.contact_info {
+  color: $primary-color;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 10px;
+}
+.book-now {
+  border-radius: 5px;
+  box-shadow: 0 4px 40px rgb(0 0 0 / 5%), 0 1px 1px rgb(0 0 0 / 5%);
+  padding: 0px 0px;
+  margin-top: 10px;
+}
+.back_colour {
+  color: #00000029;
+}
+.total_price {
+  font-size: 30px;
+  color: white;
+}
+.policy_traveller {
+  font-size: 12px;
+}
+.policy_colour {
+  cursor: pointer;
+}
+.policy_colour:hover {
+  text-decoration: underline;
+}
+.font_sizeTravel {
+  color: $primary-color;
+  font-size: 14px;
+  font-weight: bold;
+}
+.font_sizeTrave2 {
+  color: $primary-color;
+  font-size: 12px;
+  font-weight: bold;
+}
+.travel_button {
+  // background-color: #265359;
+  // border: none;
+  // outline: none;
+  // color: white;
+  // padding: 8px 52px;
+  // text-align: center;
+  // text-decoration: none;
+  // display: inline-block;
+  // font-size: 14px;
+  // border-radius: 20px;
+  background-color: #265953;
+  font-size: 14px;
+  outline: unset;
+  padding: 8px;
+  display: inline-block;
+  border-radius: 20px;
+}
+
+.spinner_overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1.6;
+  z-index: 2;
+}
+.center_image {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border-radius: 20px;
+  /* bring your own prefixes */
+  z-index: 3;
+  transform: translate(-50%, -50%);
+}
+.card01 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border-radius: 20px;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+.fail_trip_color {
+  color: $primary-color;
+  .failtrip_link {
+    height: 40px;
+    width: 40px;
+  }
+  .fail_trip_head {
+    text-align: center;
+    .fail_trip_font1 {
+      font-weight: 1000;
+    }
+  }
+}
+.select_travelerError {
+  color: red;
+  font-size: 12px;
+}
+.back_side {
+  list-style: none;
+  -webkit-padding-start: 0px;
+}
+.li_back {
+  font-size: 1em;
+  // vertical-align: middle;
+  // margin-right: 10px;
+  padding-top: 9px;
+}
+
+.Size_backicon {
+  font-size: 17px;
+  cursor: pointer;
+  color: #265359;
+}
+.Font_backicon {
+  font-size: 17px;
+  cursor: pointer;
+  color: #265359;
+}
+.Font_backicon:hover {
+  text-decoration: underline;
+  color: #265359;
+}
+.text-theming-color {
+  color: #265359;
+}
+.text-theming-color-line {
+  cursor: pointer;
+}
+.Size_contact {
+  font-size: 20px;
+  color: #265359;
+  position: relative;
+  top: -3px;
+}
+.ios.Size_contact {
+  top: 3px;
+ }
+.name_ellipsis {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #265359;
+  width: calc(60%);
+}
+
+.trip_button {
+  background-color: #efe3e3;
+  border: none;
+  color: #265359;
+  padding: 6px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 11px;
+}
+.save_button {
+  background-color: #265359;
+  color: white;
+  border-radius: 20px;
+  display: inline-block;
+  width: 100px;
+  margin-top: -12px;
+  height: 35px;
+}
+
+.check_color {
+  filter: sepia() saturate(20%) hue-rotate(487deg);
+}
+.mb_2 {
+  margin-bottom: -0.5rem !important;
+}
+.spinner_overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1.6;
+  z-index: 2;
+}
+
+.days_nights {
+  font-size: 14px;
+  color: white;
+}
+.lite_background {
+  background-color: rgba(112, 112, 112, 0.05);
+}
+.input_box {
+  background-color: rgba(112, 112, 112, 0);
+  color:$primary-color;
+  padding-top: 10px;
+  // width: 60%;
+  margin: 0 0 10px 0;
+}
+.input_box:focus {
+  border: 1px solid #ced4da;
+}
+.wrapper_div {
+  width: 60%;
+}
+.drop_down_div {
+  border: 1px solid #ced4da;
+}
+.p_custom {
+  padding: 5px 5px 5px 10px;
+}
+.chiv_down {
+  color: $third-colour;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.drop_values:hover {
+  font-weight: 600;
+  color: #707070;
+}
+.book_btn {
+  background-color: $primary-color;
+  color: white;
+  display: inline-block;
+  margin: 13px 0;
+  border-radius: 20px;
+  padding: 6px 17px;
+  font-size: 15px;
+}
+.go_back {
+  color: $third-colour;
+  outline: none;
+  border: none;
+}
+
+.font_size {
+  font-size: 10px;
+}
+
+@media (max-width: 576px) {
+  .text_primary {
+    color: $primary-color;
+    font-size: 16px;
+  }
+  .fa_lg_button {
+    font-size: 17px;
+  }
+  .top_close_btn {
+    position: absolute;
+    right: 14px;
+    top: 25px;
+    font-size: 16px;
+    color: $primary-color;
+  }
+  .modal-dialog-postions{
+    top: 30px;
+  }
+  .input_box {
+    width: 100%;
+  }
+  .main_div {
+    padding: 2%;
+  }
+  .wrapper_div {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 767px) {
+  .book-now {
+    border-radius: 5px;
+    box-shadow: 0 4px 40px rgb(0 0 0 / 5%), 0 1px 1px rgb(0 0 0 / 5%);
+    padding: 0px 0px;
+    margin-top: 10px;
+    width: 650px;
+  }
+}
+@media screen and(max-width: 425px) {
+  .mobile_screen_resp_none {
+    display: none;
+  }
+}
+@media screen and (min-width: 424px) {
+  .mobile_screen_resp {
+    display: none;
+  }
+}
+
+// .form-control {
+//   margin: 10px 0px !important;
+//   color:$primary-color !important;
+
+// }

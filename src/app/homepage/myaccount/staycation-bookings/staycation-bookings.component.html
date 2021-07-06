@@ -1,0 +1,577 @@
+<ion-content>
+  <br />
+  <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a id="staycation-completed-tab" class="nav-link clr_primary" data-toggle="tab" href="#staycation_completed" role="tab" aria-controls="staycation_completed"
+        aria-selected="false">Completed <span class="booking_hide">Bookings</span></a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a id="staycation-upcoming-tab" class="nav-link active clr_primary" data-toggle="tab" href="#staycation_upcoming" role="tab"
+        aria-controls="staycation_upcoming" aria-selected="true">
+        Upcoming <span class="booking_hide">Bookings</span></a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a id="staycation-cancelled-tab" class="nav-link clr_primary" data-toggle="tab" href="#staycation_cancelled" role="tab"
+        aria-controls="staycation_cancelled" aria-selected="false">
+        Cancelled <span class="booking_hide">Bookings</span></a>
+    </li>
+  </ul>
+  <!-- Booking History -->
+  <div class="tab-content" id="myTabContent">
+
+      <div id="staycation_completed" class="tab-pane fade">
+        <div class="text-dark" *ngIf="stycationTravelHistory.length==0">
+          <div>
+            <img src="../../../../assets/images/no-completed-bookings.svg" class="booking_status"
+              alt="no-completed-bookings" />
+            <br />
+            <div class="booking_center">
+              <h3 class="bookings_error">OOPS!</h3>
+              <p class="bookings_error_text">You have not completed any booking with Voyaah</p>
+              <p class="bookings_error_belowtext">When you book a trip, you will see you itinerary here</p>
+              <button class="bookings_error_button" (click)="navigateStaycation()">Plan A Trip</button>
+            </div>
+          </div>
+        </div>
+        <!-- Stycation History-->
+        <div *ngIf="stycationTravelHistory.length!=0">
+          <div class="container" id="upcomingBooking" class="container tab-pane active"
+            *ngFor="let stycation of stycationTravelHistory;let i=index">
+            <br />
+            <br />
+            <div class="line">
+              <ion-row>
+                <button class="btn-top" disabled>{{stycation.travelStartDate| date: 'EEE,dd LLL yyyy'}}</button>
+              </ion-row>
+            </div>
+            <br />
+            <div class="container">
+              <!-- 2 columns card -->
+              <div class="card border_card">
+                <div class="card-block">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="h-100">
+                        <img src="{{stycation.bookingDetails?.staycationBooking?.packageImages[0]}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" class="main_img_height" />
+                      </div>
+                    </div>
+                    <div class="col-lg-5 ">
+                      <div class="row mt-1">
+                        <div class="col-10">
+                          <ion-note color="tertiary" class="city_name">
+                            {{stycation.bookingDetails?.staycationBooking?.packageCity}},
+                            ({{stycation.bookingDetails?.staycationBooking?.packageName}})
+                          </ion-note>
+                          <p>
+                            <ion-note color="medium">
+                              <img width="16px" height="16px" src="../../../../assets/images/Artwork 1.svg" />
+                              {{stycation.bookingDetails?.staycationBooking?.packageCountry}}
+                            </ion-note>
+                          </p>
+                        </div>
+                        <!-- <div class="col-3">
+                          <ion-button color="tertiary" shape="round" slot="end"
+                            (click)="viewTripstycation(stycation,stycation.paymentDetails?.txid)">View
+                            Trip</ion-button>
+                        </div> -->
+                      </div>
+                      <div class="row no-gutters">
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[1]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[2]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[3]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[4]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                      </div>
+
+                      <table class="bookDetails">
+                        <tr class="bookDetails">
+                          <td class="bookDetails bookDetails_head">Booking Status: </td>
+                          <td *ngIf="stycation.bookingStatus == 'completedSuccess'" class="successColor">
+                            Success
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'partialSuccess'" class="partialSuccess">
+                            Partial&nbsp;Success
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'completedFailed'" class="errorColor">
+                            Failed
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'paymentPending'" class="errorColor">Payment&nbsp;Failed
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'paymentSuccess'" class="errorColor">
+                            Payment&nbsp;Done&nbsp;Successfully
+                          </td>
+                        </tr>
+                        <tr class="bookDetails bookDetails_head">
+                          <td class="bookDetails">Transaction Id: </td>
+                          <td *ngIf="stycation.paymentDetails?.txid !== 'null'">
+                            {{stycation.paymentDetails?.txid}}</td>
+                          <td
+                            *ngIf="stycation.paymentDetails?.txid == 'null' || stycation.paymentDetails?.txid.length == 0">
+                            -</td>
+                        </tr>
+                        <tr class="bookDetails bookDetails_head">
+                          <td class="bookDetails">Booking Reference Id:</td>
+                          <td *ngIf="stycation.paymentDetails?.rrn !== 'null'">
+                            {{stycation.paymentDetails?.rrn}}</td>
+                          <td
+                            *ngIf="stycation.paymentDetails?.rrn == 'null' || stycation.paymentDetails?.rrn?.length == 0">
+                            -
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-lg-3">
+                      <table class="table price-background-color">
+                        <thead>
+                          <tr>
+                            <br />
+                            <dl class="row">
+                              <dt class="col">Journey cost</dt>
+                            </dl>
+                            <hr class="hr_up" />
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <dl class="row">
+                              <!-- <dt class="col-6">Items</dt> -->
+                              <dt class="col-6">Price</dt>
+                              <!-- <dt class="col-6">Base Package</dt> -->
+                              <dd class="col-6">{{stycation.basePackagePrice|
+                                currency:"₹ "
+                                : false :
+                                '2.0-0'}}</dd>
+                              <dt class="col-6" *ngIf="stycation.discountedValue !='NA'">Discount Value</dt>
+                              <dd class=" col-6" *ngIf="stycation.discountedValue != 'NA'">{{stycation.discountedValue|
+                                currency:"₹ "
+                                : false :
+                                '2.0-0'}}</dd>
+                              <dt class="col-6" *ngIf="stycation.discountedPrice !='NA' ">Discounted Price</dt>
+                              <dd class="col-6" *ngIf="stycation.discountedPrice !='NA' ">{{stycation.discountedPrice |
+                                currency:"₹ " :
+                                false :
+                                '2.0-0'}}</dd>
+                            </dl>
+                          </tr>
+                        </tbody>
+                        <hr class="hr_below" />
+                        <dl class="row" *ngIf="stycation.couponCode?.length>0">
+                          <dt class="col-6">Grand Total</dt>
+                          <dd class="col-6">{{stycation.discountedPrice | currency:"₹ " : false :
+                            '2.0-0'}}</dd>
+                        </dl>
+                        <dl class="row" *ngIf="stycation.couponCode === null">
+                          <dt class="col-6">Grand Total</dt>
+                          <dd class="col-6">{{stycation.basePackagePrice | currency:"₹ " : false :
+                            '2.0-0'}}</dd>
+                        </dl>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!--/card-block-->
+              </div>
+              <!-- /2 columns card -->
+            </div>
+          </div><br />
+          <div *ngIf="paginationRecordsHistory.length>5" class="row justify-content-center">
+            <div class="d-inline my-pagination" *ngFor="let i of pageNo_array; let p=index"
+              (click)="getpaginationforhistory(p)" [ngClass]="selectedPagenumber == i ? 'active' : ''">
+              <span class="pagination-numbers" [ngClass]="selectedPagenumber == i ? 'pageActive' : ''">
+                {{i}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+    <!-- all up coming bookings -->
+    <!-- Upcoming Bookings -->
+
+      <div id="staycation_upcoming" class="tab-pane fade show active">
+        <div class="text-dark" *ngIf="stycationTravelUpcoming.length == 0">
+          <div>
+            <img src="../../../../assets/images/no-upcoming-bookings.svg" class="booking_status"
+              alt="no-upcoming-bookings" />
+            <br />
+            <div class="booking_center">
+              <h3 class="bookings_error">OOPS!</h3>
+              <p class="bookings_error_text">You have no upcoming journeys with Voyaah</p>
+              <p class="bookings_error_belowtext">When you have a journey awaiting, you will see your itinerary here</p>
+              <button class="bookings_error_button" (click)="navigateStaycation()">Plan A Trip</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stycation -->
+        <div *ngIf="stycationTravelUpcoming.length!=0">
+          <div class="container" id="upcomingBooking" class="container tab-pane active"
+            *ngFor="let stycation of stycationTravelUpcoming;let i=index">
+            <br />
+            <br />
+            <div class="line">
+              <ion-row>
+                <button class="btn-top" disabled>{{stycation.travelStartDate| date: 'EEE,dd LLL yyyy'}}</button>
+              </ion-row>
+            </div>
+            <br />
+
+            <div class="container">
+              <!-- 2 columns card -->
+              <div class="card border_card">
+                <div class="card-block">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="h-100">
+                        <img src="{{stycation.bookingDetails?.staycationBooking?.packageImages[0]}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" class="main_img_height" />
+                      </div>
+                    </div>
+                    <div class="col-lg-5">
+                      <div class="row mt-1">
+                        <div class="col-10 package-name">
+                          <ion-note color="tertiary" class="city_name">
+                            {{stycation.bookingDetails?.staycationBooking?.packageCity}},
+                            ({{stycation.bookingDetails?.staycationBooking?.packageName}})
+                          </ion-note>
+                          <p>
+                            <ion-note color="medium">
+                              <img width="16px" height="16px" src="../../../../assets/images/Artwork 1.svg" />
+                              {{stycation.bookingDetails?.staycationBooking?.packageCountry}}
+                            </ion-note>
+                          </p>
+                        </div>
+                        <!-- <div class="col-3 btn-view-trip">
+                          <ion-button color="tertiary" shape="round" slot="end" class="btn-view-trip-pos"
+                            (click)="viewTripstycation(stycation,stycation.paymentDetails?.txid)">View
+                            Trip</ion-button>
+                        </div> -->
+                      </div>
+                      <div class="row no-gutters">
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[1]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[2]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[3]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[4]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="btn-view-trip">
+                          <ion-button color="tertiary" shape="round" slot="end" class="btn-view-trip-pos" (click)="viewTripstycation(stycation.bookingDetails?.staycationBooking?.packageReference,stycation.packageId,stycation.vendorId,
+                            stycation.id)">View
+                            Trip</ion-button>
+                        </div>
+                      </div>
+
+                      <table class="bookDetails">
+                        <tr class="bookDetails">
+                          <td class="bookDetails bookDetails_head">Booking Status: </td>
+                          <td *ngIf="stycation.bookingStatus == 'completedSuccess'" class="successColor">
+                            Success
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'partialSuccess'" class="partialSuccess">
+                            Partial&nbsp;Success
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'completedFailed'" class="errorColor">
+                            Failed
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'paymentPending'" class="errorColor">Payment&nbsp;Failed
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'paymentSuccess'" class="errorColor">
+                            Payment&nbsp;Done&nbsp;Successfully
+                          </td>
+                        </tr>
+                        <tr class="bookDetails bookDetails_head">
+                          <td class="bookDetails">Transaction Id: </td>
+                          <td *ngIf="stycation.paymentDetails?.txid !== 'null'">
+                            {{stycation.paymentDetails?.txid}}</td>
+                          <td
+                            *ngIf="stycation.paymentDetails?.txid == 'null' || stycation.paymentDetails?.txid.length == 0">
+                            -</td>
+                        </tr>
+                        <tr class="bookDetails bookDetails_head">
+                          <td class="bookDetails">Booking Reference Id:</td>
+                          <td *ngIf="stycation.paymentDetails?.rrn !== 'null'">
+                            {{stycation.paymentDetails?.rrn}}</td>
+                          <td
+                            *ngIf="stycation.paymentDetails?.rrn == 'null' || stycation.paymentDetails?.rrn?.length == 0">
+                            -
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-lg-3">
+                      <table class="table price-background-color">
+                        <thead>
+                          <tr>
+                            <br />
+                            <dl class="row">
+                              <dt class="col">Journey cost</dt>
+                            </dl>
+                            <hr class="hr_up" />
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <dl class="row">
+                              <!-- <dt class="col-6">Items</dt> -->
+                              <dt class="col-6">Price</dt>
+                              <!-- <dt class="col-6">Base Package</dt> -->
+                              <dd class="col-6">{{stycation.basePackagePrice|
+                                currency:"₹ "
+                                : false :
+                                '2.0-0'}}</dd>
+                              <dt class="col-6" *ngIf="stycation.discountedValue !='NA'">Discount Value</dt>
+                              <dd class=" col-6" *ngIf="stycation.discountedValue != 'NA'">{{stycation.discountedValue|
+                                currency:"₹ "
+                                : false :
+                                '2.0-0'}}</dd>
+                              <dt class="col-6" *ngIf="stycation.discountedPrice !='NA' ">Discounted Price</dt>
+                              <dd class="col-6" *ngIf="stycation.discountedPrice !='NA' ">{{stycation.discountedPrice |
+                                currency:"₹ " :
+                                false :
+                                '2.0-0'}}</dd>
+                            </dl>
+                          </tr>
+                        </tbody>
+                        <hr class="hr_below" />
+                        <dl class="row" *ngIf="stycation.couponCode?.length>0">
+                          <dt class="col-6">Grand Total</dt>
+                          <dd class="col-6">{{stycation.discountedPrice | currency:"₹ " : false :
+                            '2.0-0'}}</dd>
+                        </dl>
+                        <dl class="row" *ngIf="stycation.couponCode === null">
+                          <dt class="col-6">Grand Total</dt>
+                          <dd class="col-6">{{stycation.basePackagePrice | currency:"₹ " : false :
+                            '2.0-0'}}</dd>
+                        </dl>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!--/card-block-->
+              </div>
+              <!-- /2 columns card -->
+            </div>
+          </div>
+          <br />
+          <div *ngIf="paginationRecordsUpcoming.length>5" class="row justify-content-center">
+            <div class="d-inline my-pagination" *ngFor="let i of pageNo_array_upcomimg; let p=index"
+              (click)="getpaginationforupcomimg(p)" [ngClass]="selectedPagenumber_upcoming == i ? 'active' : ''">
+              <span class="pagination-numbers" [ngClass]="selectedPagenumber_upcoming == i ? 'pageActive' : ''">
+                {{i}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+    <!-- cancelled bookings -->
+
+      <div id="staycation_cancelled" class="tab-pane fade">
+        <div class="text-dark" *ngIf="staycationTravelCancelled?.length === 0">
+          <div>
+            <img src="../../../../assets/images/no-cancelled-bookings.svg" class="booking_status"
+              alt="no-cancelled-bookings" />
+            <br />
+            <div class="booking_center">
+              <h3 class="bookings_error">OOPS!</h3>
+              <p class="bookings_error_text">You have not cancelled your journey with Voyaah</p>
+              <p class="bookings_error_belowtext">When you cancel a trip, you will see an update here</p>
+              <button class="bookings_error_button" (click)="navigateStaycation()">Plan A Trip</button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="staycationTravelCancelled.length!=0">
+          <div class="container" id="upcomingBooking" class="container tab-pane active"
+            *ngFor="let stycation of staycationTravelCancelled;let i=index">
+            <br />
+            <br />
+            <div class="line">
+              <ion-row>
+                <button class="btn-top" disabled>{{stycation.travelStartDate| date: 'EEE,dd LLL yyyy'}}</button>
+              </ion-row>
+            </div>
+            <br />
+            <div class="container">
+              <!-- 2 columns card -->
+              <div class="card border_card">
+                <div class="card-block">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="h-100">
+                        <img src="{{stycation.bookingDetails?.staycationBooking?.packageImages[0]}}"
+                          onerror="this.src='../../../../assets/images/Group 67292.png'" class="main_img_height" />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="row mt-1">
+                        <div class="col-10 package-name">
+                          <ion-note color="tertiary" class="city_name">
+                            {{stycation.bookingDetails?.staycationBooking?.packageCity}},
+                            ({{stycation.bookingDetails?.staycationBooking?.packageName}})
+                          </ion-note>
+                          <p>
+                            <ion-note color="medium">
+                              <img width="16px" height="16px" src="../../../../assets/images/Artwork 1.svg" />
+                              {{stycation.bookingDetails?.staycationBooking?.packageCountry}}
+                            </ion-note>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row no-gutters">
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[1]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[2]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[3]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                        <div class="d-inline-block ml-2 mb-2">
+                          <img class="midle-images-size"
+                            src="{{stycation.bookingDetails?.staycationBooking?.packageImages[4]}}"
+                            onerror="this.src='../../../../assets/images/Group 67292.png'" />
+                        </div>
+                      </div>
+                      <table class="bookDetails">
+                        <tr class="bookDetails">
+                          <td class="bookDetails bookDetails_head">Booking Status: </td>
+                          <td *ngIf="stycation.bookingStatus == 'amountRefunded'" class="successColor">
+                            Amount&nbsp;Refunded
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'refundInitiated'" class="partialSuccess">
+                            Refund&nbsp;Initiated
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'completedFailed'" class="errorColor">
+                            Failed
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'paymentPending'" class="errorColor">Payment&nbsp;Failed
+                          </td>
+                          <td *ngIf="stycation.bookingStatus == 'paymentSuccess'" class="errorColor">
+                            Payment&nbsp;Done&nbsp;Successfully
+                          </td>
+                        </tr>
+                        <tr class="bookDetails bookDetails_head">
+                          <td class="bookDetails">Transaction Id: </td>
+                          <td *ngIf="stycation.paymentDetails?.txid !== 'null'">
+                            {{stycation.paymentDetails?.txid}}</td>
+                          <td
+                            *ngIf="stycation.paymentDetails?.txid == 'null' || stycation.paymentDetails?.txid.length == 0">
+                            -</td>
+                        </tr>
+                        <tr class="bookDetails bookDetails_head">
+                          <td class="bookDetails">Booking Reference Id:</td>
+                          <td *ngIf="stycation.paymentDetails?.rrn !== 'null'">
+                            {{stycation.paymentDetails?.rrn}}</td>
+                          <td
+                            *ngIf="stycation.paymentDetails?.rrn == 'null' || stycation.paymentDetails?.rrn?.length == 0">
+                            -
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="col-lg-4 mt-3">
+                      <ion-label color="tertiary" class="d-block pb-3">
+                        You cancelled
+                        {{stycation.bookingDetails?.staycationBooking?.packageCity}},
+                        ({{stycation.bookingDetails?.staycationBooking?.packageName}})
+                        Trip
+                      </ion-label>
+                      <ion-label color="tertiary" class="d-block"
+                        *ngIf="stycation.bookingStatus=='initiatedCancelProcess'">
+                        Refund Status : Cancel Process Initiated
+                      </ion-label>
+                      <ion-label color="tertiary" class="d-block" *ngIf="stycation.bookingStatus=='refundInitiated'">
+                        Refund Status : Refund Process Initiated
+                      </ion-label>
+                      <ion-label class="d-block text-success" *ngIf="stycation.bookingStatus=='amountRefunded'">
+                        Refund Status : Amount Refunded
+                      </ion-label>
+                    </div>
+                  </div>
+                </div>
+                <!--/card-block-->
+              </div>
+              <!-- /2 columns card -->
+            </div>
+
+
+          </div>
+          <br />
+          <div *ngIf="paginationRecordsCancel.length>5" class="row justify-content-center">
+            <div class="d-inline my-pagination" *ngFor="let i of pageNo_array_cancel; let p=index"
+              (click)="getpaginationforcancel(p)" [ngClass]="selectedPagenumber_cancel == i ? 'active' : ''">
+              <span class="pagination-numbers" [ngClass]="selectedPagenumber_cancel == i ? 'pageActive' : ''">
+                {{i}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <br />
+  <br />
+  <br />
+</ion-content>
+
+<div *ngIf="isLoading">
+  <div class="spinner_overlay"></div>
+  <div *ngIf="loadMess">
+    <div class="center_image" style="width: 18rem;">
+      <div style="border-radius: 10px;">
+        <div class="fail_trip_color">
+          <div class="modal-body fail_trip_head">
+            <h3 class="fail_trip_font1">Please wait...</h3>
+            <p>
+              Please do not Refresh the page/click Back button
+            </p>
+            <img src="../../../assets/images/loader.gif" class="failtrip_link" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

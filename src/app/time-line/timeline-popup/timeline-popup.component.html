@@ -1,0 +1,8 @@
+<div class="p-4 position-relative h-100 parent-div">
+  <ion-icon name="close-circle-outline" class="closeBtn cursor-pointer" (click)="dismiss()"></ion-icon>
+  <div class="text-center w-100">
+    <span class="text_colour" *ngIf="!errorMessageFlag">Please select atleast one hotel or any combination of atleast one flight and activity </span>
+    <span class="text_colour" *ngIf="errorMessageFlag">Invalid Dates</span>
+  </div>
+    <button type="button" class="btn sbt_btn btn_hover btn_focus_bg_clr" (click)="dismiss()">Ok</button>
+</div>

@@ -1,0 +1,228 @@
+$primary-color: #265359;
+$secondary-color: #fbfaf8;
+$third-colour: #707070;
+.pad-r-15{
+  padding-right: 15px;
+}
+.pad_top {
+  display: inline-block;
+  padding-top: 5px;
+}
+.color_primary {
+  color: $primary-color;
+}
+.color_primary_show {
+  color: $primary-color;
+  padding: 6px 0 20px;
+}
+.fixed_height {
+  height: calc(100vh - 89px);
+}
+.overflow_scroll {
+  height: 760px;
+  width: 200px;
+  overflow-y: scroll;
+}
+.mb_custom {
+  margin-bottom: 1rem;
+}
+.user_card {
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 17px;
+  background-color: white;
+  margin: 1.5rem 1rem 1rem 1rem;
+}
+.profile_card {
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 17px;
+  background-color: white;
+  margin: 1.5rem 1rem 1rem 0;
+  width: 100%;
+  height: 100%;
+}
+.spin_show {
+  display: inline;
+}
+.profile_login_details {
+  padding: 1.5rem 0 1.5rem 3rem;
+}
+.form_padding {
+  padding: 0rem 1rem 1rem 3rem;
+}
+.input-width {
+  width: 75%;
+}
+.input-width-id {
+  width: 75%;
+}
+.user_pic {
+  background-color: $primary-color;
+  color: #efe3e3;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  .user_short_name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-weight: 600;
+    font-size: 36px;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
+
+.user_name {
+  color: $primary-color;
+  font-weight: 600;
+}
+.trip_count {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 6px 0 20px;
+}
+.joined {
+  color: #868e96;
+  font-size: 11px;
+}
+.font-big {
+  font-size: 20px;
+  font-weight: 600;
+}
+.border-line {
+  border-bottom: 1px solid #dcdcdc;
+}
+.save_button {
+  background-color: #265359;
+  color: white;
+  border-radius: 20px;
+  display: inline-block;
+  width: 120px;
+  height: 40px;
+}
+.verify {
+  border: none !important;
+  background-color: transparent;
+  color: #0059ce;
+  position: absolute;
+  top: 35px;
+  right: 25px;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  background-color: white;
+}
+.verified {
+  font-size: 13px;
+  color: #109b00;
+  position: absolute;
+  top: 35px;
+  right: 25px;
+  font-weight: 600;
+  background-color: white;
+  .checkmark {
+    position: absolute;
+    left: -13px;
+    top: 2px;
+    background-color: white;
+  }
+}
+.ios[_ngcontent-serverApp-c201] .sm_position[_ngcontent-serverApp-c201] {
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1607843137254902);
+  padding: 72px 0;
+}
+.center_image {
+  position: fixed;
+  top: 4%;
+  right: 0;
+  box-shadow: 0 0px 30px 0 rgb(0 0 0 / 20%);
+  background-color: #265359;
+  color: #fbfaf8;
+  z-index: 3;
+  padding: 10px;
+  border-radius: 12px 0 0 12px;
+  // transform: translate(-50%, -50%);
+}
+.close_tooster {
+  cursor: pointer;
+  color: #fbfaf8 ;
+}
+.toasterColor{
+  color: #fbfaf8 ;
+
+}
+// iOS CSS properties update button
+// .save_button {
+//   background-color: #265359;
+//   color: #fff;
+//   width: 90px;
+//   border-radius: 20px;
+//   margin-top: -90px;
+// }
+@media (max-width: 991px) {
+  .mb_custom {
+    margin-bottom: 4rem;
+  }
+}
+// @media (max-width: 767px) {
+//   .overflow_scroll {
+//     overflow: visible;
+//   }
+// }
+@media (min-width: 576px) {
+  .iddetails_show_screen {
+    display: none;
+  }
+}
+@media (max-width: 425px) {
+  .center_image {
+    position: fixed;
+    top: 7%;
+    right: 0;
+    box-shadow: 0 0px 30px 0 rgb(0 0 0 / 20%);
+    background-color: #265359;
+    color: #fbfaf8;
+    z-index: 3;
+    padding: 10px;
+    border-radius: 12px 0 0 12px;
+  }
+}
+@media (max-width: 576px) {
+  .iddetails_show {
+    display: none;
+  }
+  .save_button {
+    margin-top: 10px;
+  }
+  .user_card {
+    border-radius: 0 0 17px 17px;
+    background-color: $secondary-color;
+    margin: 0;
+  }
+  .profile_card {
+    border-radius: 0;
+    margin: 10px 0 0 0;
+    box-shadow: none;
+  }
+  .border-line {
+    border-bottom: none;
+  }
+  .profile_login_details {
+    padding: 1.5rem 0 0 1.5rem;
+  }
+  .form_padding {
+    padding: 1rem 1rem 0 1.5rem;
+  }
+  .input-width {
+    width: 100%;
+  }
+}
+.invalid_message {
+  color: #dc3545;
+  font-size: 12px;
+}

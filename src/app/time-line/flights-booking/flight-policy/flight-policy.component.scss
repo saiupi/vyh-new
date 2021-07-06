@@ -1,0 +1,21 @@
+$primary-color: #265359;
+.modal_close {
+  top: 8px;
+  right: 20px;
+  font-size: 22px;
+  position: fixed;
+  color: $primary-color;
+  z-index: 1;
+}
+.fixed_head{
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+.scroll_auto{
+  overflow-y: auto;
+}
+.modal_head{
+  color: $primary-color;
+  font-size: 20px;
+}

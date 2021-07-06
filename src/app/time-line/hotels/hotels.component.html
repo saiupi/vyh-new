@@ -1,0 +1,628 @@
+<div class="header">
+  <ion-col>
+    <!-- Hotel preferences button and back button -->
+    <ion-text class="d-block text-right position-relative">
+      <ion-icon class="hotel-icon-hide hotel_lst_back_btn"  name="arrow-back-circle-outline" (click)="backclick()">
+      </ion-icon>
+      <ion-icon name="arrow-back-circle-outline" (click)="room_back()" [hidden]="htlst_htview"
+        class="hotel_lst_back_btn"></ion-icon>
+      <span class="htl-preference" (click)="showHotelPreference()">
+        <i class="fa fa-filter pr-2" aria-hidden="true"></i> Hotel Prefernces
+      </span>
+      <hr class="htl-line" />
+    </ion-text>
+    <!-- Hotel search bar with voyaah logo and search text box -->
+    <ion-grid class="mt-2 mb-2" [hidden]="showHotelFilters">
+      <!-- <ion-text class="text-dark flt_back_btn" (click)="backclick()">
+        <ion-icon style="zoom: 1.1" name="arrow-back-outline"></ion-icon>
+      </ion-text> -->
+      <ion-row class="ml-4 mr-4" [hidden]="!htlst_htview">
+        <ion-col size="12" class="act_search_bar position-relative d-flex">
+          <img src="../../../assets/images/logo.svg" class="search_img d-inline" />
+          <ion-input class="d-inlineblock text-dark pl-2 pt-1 srch position-relative flex-grow-1"
+            placeholder="Search here for hotels" (input)="SearchHotel($event)" ngDefaultControl></ion-input>
+          <!-- <button class="verified_btn">Verified Hotels</button> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-col>
+</div>
+
+<!-- Hotel Preferences options container -->
+<ion-grid class="container-fluid pt_4" [hidden]="!showHotelFilters">
+  <!-- <ion-text class="text-dark flt_back_btn" (click)="prefbackclick()">
+    <ion-icon style="zoom: 1.1" name="arrow-back-outline"></ion-icon>
+  </ion-text> -->
+  <!-- <ion-row>
+  </ion-row> -->
+  <ion-row>
+    <ion-col class="pl-1 pr-1" size="12">
+      <button class="btn ac_apply2 btn_hover" [ngClass]="isFilterApplied?'active':''" (click)="clearpreferences()">
+        Clear
+      </button>
+      <button data-amplify-analytics-on='click' data-amplify-analytics-name='HotelFiltersApply'
+        data-amplify-analytics-attrs='Hotels' class="btn apply_button float-right btn_hover btn_focus_bg_clr" (click)="hotelFilter()">
+        Apply
+      </button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="pl-2 pr-2" size="12">
+
+      <ion-text class="d-block text-dark fltr_head">Price:</ion-text>
+      <ion-text class="d-block color2">Upto : ₹ {{ farevalue }}</ion-text>
+      <mat-slider min="{{ minValue }}" max="{{ maxValue }}" step="1" (change)="isFilterApplied = true"
+      [(ngModel)]="farevalue" class="pl-0 w-100">
+      </mat-slider>
+      <div>
+        <ion-text class="color2">₹ {{ minValue }}</ion-text>
+        <ion-text class="color2 float-right">₹ {{ maxValue }}</ion-text>
+      </div>
+      <ion-row class="pt-2">
+        <ion-col class="d-inlineblock mt-3" size="5">
+          <ion-text class="d-block text-dark fltr_head">Ratings</ion-text>
+          <div class="star-rating">
+            <input class="star-1" id="star-1" type="radio" name="rating" (click)="rating(5)" value="star-1" />
+            <label for="star-1">
+              <ion-icon name="star"></ion-icon>
+            </label>
+
+            <input class="star-2" id="star-2" type="radio" name="rating" (click)="rating(4)" value="star-2" />
+            <label for="star-2">
+              <ion-icon name="star"></ion-icon>
+            </label>
+
+            <input class="star-3" id="star-3" type="radio" name="rating" (click)="rating(3)" value="star-3" />
+            <label for="star-3">
+              <ion-icon name="star"></ion-icon>
+            </label>
+
+            <input class="star-4" id="star-4" type="radio" name="rating" (click)="rating(2)" value="star-4" />
+            <label for="star-4">
+              <ion-icon name="star"></ion-icon>
+            </label>
+
+            <input class="star-5" id="star-5" type="radio" name="rating" (click)="rating(1)" value="star-5" />
+            <label for="star-5">
+              <ion-icon name="star"></ion-icon>
+            </label>
+          </div>
+        </ion-col>
+        <ion-col class="d-inlineblock mt-3" size="7">
+          <ion-text class="d-block text-dark fltr_head">Locality</ion-text>
+          <ng-multiselect-dropdown (change)="isFilterApplied = true" class="multi-select-dropdown"
+          [placeholder]="'Select Locality'" [data]="localityData"
+            [(ngModel)]="selectedlocality" [settings]="dropdownSettings">
+          </ng-multiselect-dropdown>
+        </ion-col>
+      </ion-row>
+
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<!-- Hotel details container when click on any hotel card-->
+<ion-grid class="hotel_view_more" [hidden]="htlst_htview">
+  <ion-text class="text-danger" *ngIf="hotel_room_error_flag">{{
+    hotel_room_error
+    }}</ion-text>
+  <div class="no-gutters" *ngIf="!hotel_room_error_flag">
+    <img src="../../../assets/images/loadingbars.svg" class="d-block mx-auto" *ngIf="!hotelRoom"
+      style="height: 100px; width: 150px" />
+    <div *ngIf="hotelRoom">
+      <!-- <button class="btn htlview_add_btn" (click)="addHotels()">Add Now</button> -->
+      <ion-text class="d-block htl_name px-2">{{ hotelRoom.hotelContent.name }}
+      </ion-text>
+      <div class="pt-1 pb-1 px-2">
+        <span class="mr-1 rating-num" *ngIf="hotelRoom.hotelContent.hotelRating==0">No ratings</span>
+        <span class=" rating-list" *ngIf=" hotelRoom.hotelContent.hotelRating == 1">
+          <li class="mr-1 rating-num">{{hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+        </span>
+        <span class=" rating-list" *ngIf=" hotelRoom.hotelContent.hotelRating > 1 &&
+            hotelRoom.hotelContent.hotelRating< 2">
+          <li class="mr-1 rating-num">{{ hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+          </li>
+        </span>
+        <span class=" rating-list" *ngIf=" hotelRoom.hotelContent.hotelRating == 2">
+          <li class="mr-1 rating-num">{{ hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+        </span>
+        <span class=" rating-list" *ngIf=" hotelRoom.hotelContent.hotelRating > 2 &&
+            hotelRoom.hotelContent.hotelRating< 3">
+          <li class="mr-1 rating-num">{{ hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+          </li>
+
+        </span>
+        <span class=" rating-list" *ngIf=" hotelRoom.hotelContent.hotelRating == 3">
+          <li class="mr-1 rating-num">{{ hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+        </span>
+        <span class=" rating-list" *ngIf="hotelRoom.hotelContent.hotelRating > 3 &&
+            hotelRoom.hotelContent.hotelRating < 4">
+          <li class="mr-1 rating-num">{{ hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+          </li>
+
+        </span>
+        <span class=" rating-list" *ngIf="hotelRoom.hotelContent.hotelRating == 4">
+          <li class="mr-1 rating-num">{{hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+
+        </span>
+        <span class=" rating-list" *ngIf=" hotelRoom.hotelContent.hotelRating> 4 &&
+            hotelRoom.hotelContent.hotelRating < 5">
+          <li class="mr-1 rating-num">{{ hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+          </li>
+        </span>
+        <span class=" rating-list" *ngIf="hotelRoom.hotelContent.hotelRating == 5 ">
+          <li class="mr-1 rating-num">{{hotelRoom.hotelContent.hotelRating| number: '1.1-1'}}</li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+          <li>
+            <ion-icon name="star" class="star-color"></ion-icon>
+          </li>
+        </span>
+      </div>
+      <ion-text class="d-block htl_addrs px-2">{{
+        hotelRoom.hotelContent.address
+        }}</ion-text>
+      <ion-row class="row no-gutters px-2">
+        <ion-col class="col-12 col-sm-7 big_ht mt-1 p-0"><img src="{{ hotelRoom.hotelContent.images[0]?.url }}"
+            class="h-100 w-100" alt="image_not_found" onerror="this.src='assets/images/Group 67292.png'" /></ion-col>
+        <ion-col class="col-12 col-sm-5 mt-1">
+          <div class="row no-gutters">
+            <div class="col-6 small_ht pl-sm-1 pt-0 pr-0 pb-1">
+              <img src="{{ hotelRoom.hotelContent.images[1]?.url }}" onerror="this.src='assets/images/Group 67292.png'"
+                class="h-100 w-100" />
+            </div>
+            <div class="col-6 small_ht pl-1 pt-0 pr-0 pb-1">
+              <img src="{{ hotelRoom.hotelContent.images[2]?.url }}" onerror="this.src='assets/images/Group 67292.png'"
+                class="h-100 w-100" />
+            </div>
+            <div class="col-6 small_ht pl-sm-1 pt-0 pr-0 pb-0">
+              <img src="{{ hotelRoom.hotelContent.images[3]?.url }}" onerror="this.src='assets/images/Group 67292.png'"
+                class="h-100 w-100" />
+            </div>
+            <div class="col-6 small_ht pl-1 pt-0 pr-0 pb-0">
+              <img src="{{ hotelRoom.hotelContent.images[4]?.url }}" onerror="this.src='assets/images/Group 67292.png'"
+                class="h-100 w-100" />
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-text class="d-block text-dark text-right px-2" *ngIf="hotelRoom">
+        <div [innerHTML]="hotelRoom.hotelContent.content" class="text-justify" [ngClass]="ellipsis?'ellipsis':''">
+        </div>
+        <span class="font-weight-bold cursor-pointer" *ngIf="ellipsis" (click)="ellipsis=!ellipsis;">view more<ion-icon
+            name="chevron-down-outline"></ion-icon></span>
+        <span class="font-weight-bold cursor-pointer" *ngIf="!ellipsis" (click)="ellipsis=!ellipsis;">view less<ion-icon
+            name="chevron-up-outline"></ion-icon></span>
+
+      </ion-text>
+      <ion-text class="head text-dark d-inline-block mb-3 mt-3 px-2"
+        *ngIf="hotelRoom?.hotelContent?.facilities && hotelRoom?.hotelContent?.facilities?.length>0">Facilities
+      </ion-text>
+      <div class="facilities_div"
+        *ngIf="hotelRoom?.hotelContent?.facilities && hotelRoom?.hotelContent?.facilities?.length>0">
+        <div class="fac-row no-gutters text-dark position-relative">
+          <div class="d-inline text-center mr-3 mb-3 fac-col"
+            *ngIf="hotelRoom?.hotelContent?.facilities?.includes('Shower')">
+            <div class="facilities_icon_div row">
+              <img src="../../../assets/images/shower.svg" class="my-auto mx-auto" />
+            </div>
+            <div>
+              <ion-text>Shower</ion-text>
+            </div>
+          </div>
+          <div class="d-inline text-center mr-3 mb-3 fac-col" *ngIf="
+              hotelRoom?.hotelContent?.facilities?.includes('Wi-fi') ||
+              hotelRoom?.hotelContent?.facilities?.includes('Internet access')
+            ">
+            <div class="facilities_icon_div row no-gutters">
+              <img src="../../../assets/images/wifi.svg" class="my-auto mx-auto" />
+            </div>
+            <div>
+              <ion-text>Wifi</ion-text>
+            </div>
+          </div>
+          <div class="d-inline text-center mr-3 mb-3 fac-col" *ngIf="
+              hotelRoom?.hotelContent?.facilities?.includes('Air conditioning')
+            ">
+            <div class="facilities_icon_div row no-gutters">
+              <img src="../../../assets/images/ac.svg" class="my-auto mx-auto" />
+            </div>
+
+            <div>
+              <ion-text>AC</ion-text>
+            </div>
+          </div>
+          <div class="d-inline text-center mr-3 mb-3 fac-col" *ngIf="false">
+            <div class="facilities_icon_div row no-gutters">
+              <img src="../../../assets/images/dumbells.svg" class="my-auto mx-auto" />
+            </div>
+            <div>
+              <ion-text>Fitness Center</ion-text>
+            </div>
+          </div>
+          <div class="d-inline text-center mr-3 mb-3 fac-col" *ngIf="
+              hotelRoom?.hotelContent?.facilities?.includes('24-hour reception')
+            ">
+            <div class="facilities_icon_div row no-gutters">
+              <img src="../../../assets/images/reception.svg" class="my-auto mx-auto" />
+            </div>
+            <div>
+              <ion-text>24-Hours Front Desk</ion-text>
+            </div>
+          </div>
+          <div class="d-inline text-center mr-3 mb-3 fac-col"
+            *ngIf="hotelRoom?.hotelContent?.facilities?.includes('Room Service')">
+            <div class="facilities_icon_div row no-gutters">
+              <img src="../../../assets/images/roomservice.svg" class="my-auto mx-auto" />
+            </div>
+            <div>
+              <ion-text>Room Service</ion-text>
+            </div>
+          </div>
+          <ion-text class="all_facilities_link cursor-pointer  collapsed " data-toggle="collapse"
+            data-target="#facilities">View More
+            <ion-icon name="chevron-up-outline" class="main_chiv_symbol"></ion-icon>
+          </ion-text>
+        </div>
+        <div class="row no-gutters collapse" id="facilities">
+          <div class="col-6 col-sm-4 text-dark no-gutters  " *ngFor="let facility of hotelRoom.hotelContent?.facilities">
+            <ion-icon name="checkmark-circle-outline"></ion-icon> {{ facility }}
+          </div>
+        </div>
+      </div>
+      <div class="room_type_div" *ngFor="let room of hotelRoom.rooms; let roomindex = index">
+        <div class="row no-gutters">
+          <div class="col-8 head">
+            <ion-text class="d-inline-block mb-2">{{
+              room.roomType | titlecase
+              }}</ion-text>
+          </div>
+          <div class="col-4 fare text-right">
+            <ion-text>{{room.netPrice| currency:"₹ " : false : '1.0-0'}}</ion-text>
+          </div>
+        </div>
+        <div class="d-flex no-gutters flex_wrap">
+          <div class="col-12 col-sm-4" *ngIf="room?.roomImages?.length >0">
+            <!-- Carousal with room images -->
+              <div [attr.id]="'room-' + roomindex" class="carousel slide" data-ride="corousel" data-interval="false">
+                <div class="carousel-inner">
+                  <div class="carousel-item" [ngClass]="imageindex == 0 ? 'active' : ''"
+                    *ngFor="let image of room.roomImages; let imageindex = index">
+                    <img src="{{ image }}" onerror="this.src='assets/images/Group 67292.png'"
+                      class="w-100 h-100 carousal_img" />
+                  </div>
+                </div>
+                <!-- Left and right controls -->
+                <a class="carousel-control-prev" [attr.data-target]="'#room-' + roomindex" data-slide="prev">
+                  <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" [attr.data-target]="'#room-' + roomindex" data-slide="next">
+                  <span class="carousel-control-next-icon"></span>
+                </a>
+              </div>
+              <!-- Indicators -->
+              <ul class="carousel-indicators">
+                <li [attr.data-target]="'#room-' + roomindex" [attr.data-slide-to]="thumbnailindex" class="active"
+                  *ngFor="
+                    let thumbnail of room.roomImages;
+                    let thumbnailindex = index
+                  ">
+                  <div class="thumbnail h-100">
+                    <img class="w-100 h-100" src="{{ thumbnail }}" />
+                  </div>
+                </li>
+              </ul>
+          </div>
+          <div class="flex-grow-1 hotel-room-details pl-md-3 pt-md-3">
+            <div class="row no-gutters">
+              <div class="col-6">
+                <ion-text><b>Extra Beds:</b> {{
+                  !room?.extrabeds ? '0' : room?.extrabeds
+                  }}</ion-text>
+              </div>
+              <div class="col-6 hotel-details-pad">
+                <ion-text><b>Maximum Occupancy:</b> {{
+                  !room.maxOccupancyPerRoom?'NA':room.maxOccupancyPerRoom
+                  }}</ion-text>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-6">
+                <ion-text><b>Fare type:</b> {{
+                  !room?.fareType?'NA':room?.fareType
+                  }}</ion-text>
+              </div>
+              <div class="col-6 hotel-details-pad">
+                <ion-text><b>Board type:</b> {{
+                  !room?.boardType?'NA':room?.boardType
+                  }}</ion-text>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-12">
+                <ion-text><b>Facilities: </b> <ion-text class="" *ngFor="let i of room.facilities">{{i}}, </ion-text>
+                </ion-text>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-12">
+                <b>Description</b> : {{ room.description }}
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-12 text-justify">
+                <b>Cancel Policy</b> : {{
+                room?.cancellationPolicy
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-12">
+            <button class="htlview_add_btn ml-auto my-auto btn btn_hover btn_focus_bg_clr" (click)="addHotels(roomindex)">
+              Add Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-grid>
+
+<!-- <br /> -->
+<div *ngIf="isLoading">
+  <div class="text-center mt-5">
+    <img class="loading-bg img-fluid" src="../../../assets/images/flight-fly.gif" width="300px" height="300px" />
+  </div>
+</div>
+<div *ngIf="isError" class="text-center mt_100">
+  <img class="img-fluid mx-auto d-block" src="../../../assets/images/service error.gif" width="200px" height="200px" />
+  <ion-text class="d-block errorMessage">{{ errorMessage }}</ion-text>
+</div>
+
+<!-- Hotels List view -->
+<ion-grid class="scroll_hotel" [hidden]="!(htlst_htview && !showHotelFilters)">
+  <ion-row class="row ml_mr_0" *ngIf="!ErrorHotel">
+    <ion-col class="col-xs-12 col-sm-4 text-dark pt-3 grd-col-card" *ngFor="let a of destinationData">
+      <div (click)="viewhotel(a)" class="hotelCard">
+        <div class="mb-2">
+          <img src="{{ a.thumbNailUrl }}" class="htl_img_style" alt="image_not_found"
+            onerror="this.src='assets/images/Group 67292.png'" loading="lazy" />
+        </div>
+        <div class="hotelContent">
+          <div>
+            <ion-text class="d-block htl_name mb-0">{{ a.hotelName | defineName}}</ion-text>
+            <!-- <span>{{a.email}}</span> -->
+          </div>
+          <!-- <span class="htl_name pr-1">{{a.hotelRating}}</span> -->
+          <div>
+
+
+          <span class="mr-1 rating-num" *ngIf="a.hotelRating==0">No ratings</span>
+          <span class=" rating-list" *ngIf=" a.hotelRating == 1">
+            <li class="mr-1 rating-num">{{a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+
+          </span>
+          <span class=" rating-list" *ngIf=" a.hotelRating > 1 &&
+          a.hotelRating< 2">
+            <li class="mr-1 rating-num">{{ a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+            </li>
+
+          </span>
+          <span class=" rating-list" *ngIf=" a.hotelRating == 2">
+            <li class="mr-1 rating-num">{{ a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+          </span>
+          <span class=" rating-list" *ngIf=" a.hotelRating > 2 &&
+          a.hotelRating< 3">
+            <li class="mr-1 rating-num">{{ a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+            </li>
+
+          </span>
+          <span class=" rating-list" *ngIf=" a.hotelRating == 3">
+            <li class="mr-1 rating-num">{{ a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+          </span>
+          <span class=" rating-list" *ngIf="a.hotelRating > 3 &&
+          a.hotelRating < 4">
+            <li class="mr-1 rating-num">{{ a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+            </li>
+          </span>
+          <span class=" rating-list" *ngIf="a.hotelRating == 4">
+            <li class="mr-1 rating-num">{{a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+          </span>
+          <span class=" rating-list" *ngIf=" a.hotelRating> 4 &&
+          a.hotelRating < 5">
+            <li class="mr-1 rating-num">{{ a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star-half-outline" class="star-color"></ion-icon>
+            </li>
+          </span>
+          <span class=" rating-list" *ngIf="a.hotelRating == 5 ">
+            <li class="mr-1 rating-num">{{a.hotelRating| number: '1.1-1'}}</li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="star" class="star-color"></ion-icon>
+            </li>
+
+          </span>
+          <span class="float-right">{{a.totalPrice| currency:"₹ " : false : '1.0-0'}}</span>
+        </div>
+          <ion-text class="d-block htl_location mb-2 pl-3 position-relative">
+            <ion-icon name="location-sharp" class="location_sharp"></ion-icon>
+            {{ a.address }},{{ a.city }},{{ a.country }}
+          </ion-text>
+        </div>
+        <!-- <div class="d-flex justify-content-between htl_spec mb-2">
+          <ion-text>Beds: 4</ion-text>
+          <ion-text>Baths: 2</ion-text>
+          <ion-text>Sq Ft: 5280</ion-text>
+        </div> -->
+        <!-- <button class="btn-block htl_add_btn" >
+        View More
+      </button> -->
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="row no-gutters" *ngIf="ErrorHotel">
+    <ion-col>
+      <div>
+        <h1 class="ErrorHotel">Hotels Not Found</h1>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

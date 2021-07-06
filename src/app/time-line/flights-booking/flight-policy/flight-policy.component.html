@@ -1,0 +1,13 @@
+<div class="position-relative scroll_auto">
+  <ion-icon name="close-circle-outline"
+             class="modal_close cursor-pointer" (click)="dismiss()">
+            </ion-icon>
+  <div class="text-center py-3 fixed_head">
+    <span class="modal_head">Flight Policy</span>
+  </div>
+  <img src="../../../../assets/images/loadingbars.svg" class="d-block mx-auto" *ngIf="loader"
+  style="height: 100px; width: 150px" />
+  <div class="px-2">
+    <span [innerHTML]="policyApiResponse?.fareRulesResult?.fareRules[0]?.rules"></span>
+  </div>
+</div>

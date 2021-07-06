@@ -1,0 +1,28 @@
+$primary-color: #265359;
+$secondary-color: #fbfaf8;
+$third-colour: #707070;
+.closeBtn {
+  color: $primary-color;
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  font-size: 22px;
+}
+.sbt_btn {
+  background-color: $primary-color;
+  color: white;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 12px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.text_colour {
+  color: $primary-color;
+}
+.parent-div {
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+}

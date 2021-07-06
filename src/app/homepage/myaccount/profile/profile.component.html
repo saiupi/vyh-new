@@ -1,0 +1,709 @@
+<ion-row style="overflow: auto">
+  <ion-col size-xs="12" size-md="4">
+    <div class="user_card">
+      <div class="text-center pt-5">
+        <div *ngIf="nameChange">
+          <div class="user_pic mx-auto position-relative">
+            <ion-text class="user_short_name">Fu</ion-text>
+          </div>
+          <ion-text class="user_name d-inline-block pt-3 pb-3">First User</ion-text>
+        </div>
+        <div *ngIf="!nameChange">
+          <div class="user_pic mx-auto position-relative">
+            <ion-text class="user_short_name">{{ iconName }}</ion-text>
+          </div>
+          <ion-text class="user_name d-inline-block pt-3 pb-3">{{
+            userNameShow
+            }}</ion-text>
+        </div>
+      </div>
+      <ion-row>
+        <ion-col size="4" class="text-center">
+          <ion-text class="color_primary">Completed<br />Trips</ion-text>
+          <div *ngIf="loadingStaycation || loadingCustom">
+            <div class="color_primary_show"><span  class="spinner-border spinner-border-sm"></span></div>
+          </div>
+          <div  *ngIf="!loadingStaycation && !loadingCustom">
+            <ion-text class="color_primary d-block trip_count"
+            *ngIf="stycationTravelHistory?.length > 0 || customTravelHistory?.length > 0 ||
+             (stycationTravelHistory?.length > 0 || customTravelHistory?.length > 0)">
+            {{stycationTravelHistory?.length + customTravelHistory?.length}}</ion-text>
+          <ion-text class="color_primary d-block trip_count"
+            *ngIf="stycationTravelHistory?.length == 0 && customTravelHistory?.length == 0">0</ion-text>
+          </div>
+        </ion-col>
+
+        <ion-col size="4" class="text-center">
+          <ion-text class="color_primary">Upcoming<br />Trips</ion-text>
+          <div *ngIf="loadingStaycation || loadingCustom">
+            <div class="color_primary_show"><span  class="spinner-border spinner-border-sm"></span></div>
+          </div>
+          <div  *ngIf="!loadingStaycation && !loadingCustom">
+            <ion-text class="color_primary d-block trip_count"
+            *ngIf="stycationTravelUpcoming?.length>0 || customTravelUpcoming?.length > 0  ||
+            (stycationTravelUpcoming?.length>0 && customTravelUpcoming?.length > 0)">
+            {{stycationTravelUpcoming?.length + customTravelUpcoming?.length}}</ion-text>
+          <ion-text class="color_primary d-block trip_count"
+            *ngIf="stycationTravelUpcoming?.length == 0 && customTravelUpcoming?.length == 0">0</ion-text>
+          </div>
+        </ion-col>
+        <ion-col size="4" class="text-center">
+          <ion-text class="color_primary">Cancelled<br />Trips</ion-text>
+          <div *ngIf="loadingStaycation || loadingCustom">
+            <div class="color_primary_show"><span  class="spinner-border spinner-border-sm"></span></div>
+          </div>
+          <div  *ngIf="!loadingStaycation && !loadingCustom">
+            <ion-text class="color_primary d-block trip_count"
+            *ngIf="staycationTravelCancelled?.length > 0 || customTravelCancelled?.length > 0 ||
+            (staycationTravelCancelled?.length > 0 || customTravelCancelled?.length > 0)">
+            {{staycationTravelCancelled?.length+customTravelCancelled?.length}}</ion-text>
+          <ion-text class="color_primary d-block trip_count"
+            *ngIf="staycationTravelCancelled?.length == 0 && customTravelCancelled?.length == 0">0</ion-text>
+          </div>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-text class="joined d-inline-block pt-2 pb-2 pl-3">
+        <ion-icon name="calendar-outline" class="pr-2"></ion-icon>Joined Sept 04
+      </ion-text> -->
+    </div>
+  </ion-col>
+  <ion-col size-xs="12" size-md="8" class="pr-3">
+    <ion-row>
+      <ion-col size-sm="12" size-xl="12" class="mb_custom">
+        <!-- *ngIf="!alreadyRecord" class="overflow_scroll"-->
+        <div>
+          <div *ngIf="!updateDetails">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="profile_card pb-3">
+                <div class="profile_login_details">
+                  <ion-text class="font-big color_primary d-block">Profile</ion-text>
+                  <!-- <ion-text class="font-small color_primary pad_top">Basic Information Of The User</ion-text> -->
+                </div>
+                <div>
+
+                  <div class="container-fluid form_padding border-line">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail1" class="text-dark">Name</label>
+                        <input type="text" class="form-control input-width" id="exampleInputEmail1"
+                          placeholder="User Name" formControlName="firstName" [ngClass]="{
+                            'is-invalid': submitted && f.firstName.errors
+                          }" onkeypress="return (event.charCode > 64 && event.charCode < 91) ||
+                          (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" maxlength="70" />
+                        <!-- <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                          <div *ngIf="f.firstName.errors.required">
+                            Name is Required
+                          </div>
+                          <div *ngIf="f.firstName.errors.minlength">
+                            Enter valid name
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail2" class="text-dark">Date Of Birth</label>
+                        <input class="form-control input-width textbox-n" placeholder="Date of Birth" type="date"
+                          id="date" (change)="onProfileDob($event)" formControlName="dateOfBirth" [ngClass]="{
+                            'is-invalid': submitted && f.dateOfBirth.errors  || validDate
+                          }" [max]="date" (keydown)="disableDate()" />
+                        <!-- <div *ngIf="submitted && f.dateOfBirth.errors" class="invalid-feedback">
+                          <div *ngIf="f.dateOfBirth.errors.required">
+                            Eate of birth is required
+                          </div>
+                        </div>
+                        <div *ngIf="validDate" class="invalid_message">
+                          Enter valid date of birth
+                        </div> -->
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="form-group col-12 col-sm-6">
+                        <label for="exampleFormControlSelect1 " class="text-dark">Gender</label>
+                        <select class="form-control input-width" id="exampleFormControlSelect1" formControlName="gender"
+                          placeholder="Gender" [ngClass]="{
+                            'is-invalid': submitted && f.gender.errors
+                          }">
+                          <option value="" disabled>Gender</option>
+                          <option vlaue="Male">Male</option>
+                          <option vlaue="Female">Female</option>
+                          <option vlaue="Other">Other</option>
+                        </select>
+                        <!-- <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                          <div *ngIf="f.gender.errors.required">
+                            Gender is required
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="form-group col-12 col-sm-6">
+                        <label for="exampleFormControlSelectt text-dark" class="text-dark">Marital Status</label>
+                        <select class="form-control input-width" placeholder="Marital status"
+                          id="exampleFormControlSelectt" formControlName="maritalStatus"
+                          (change)="onChangemarriageregister($event)">
+                          <option value="" disabled>Marital Status</option>
+                          <option value="Married">Married</option>
+                          <option value="Single">Single</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="isCustomerMarriedregisterd">
+                      <div class="form-group col-12 col-sm-6">
+                        <label for="exampleInputEmail6" class="text-dark">Anniversary</label>
+                        <input type="date" class="form-control input-width" placeholder="Anniversary"
+                          formControlName="anniversary" [max]="minDate" (keydown)="disableDate()"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="profile_login_details">
+                  <ion-text class="font-big color_primary d-block">Login Details</ion-text>
+                  <ion-text class="font-small color_primary pad_top">Manage Your Credentials</ion-text>
+                </div>
+
+                <div *ngIf="!userVerify">
+                  <div class="container-fluid form_padding border-line">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail3" class="text-dark">Mobile No</label>
+                        <div class="d-flex no-gutters">
+                          <div>
+                            <select class="form-control d-inline" id="sel1" formControlName="countryCode" disabled>
+                              <option value="+91">+91</option>
+                              <option value="+1">+1</option>
+                            </select>
+                          </div>
+                          <div class="flex-grow-1">
+                            <input type="text" class="form-control input-width" id="exampleInputEmail3"
+                              placeholder="Mobile No" maxlength="10"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                              formControlName="mobileNo" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail4" class="text-dark">Email</label>
+                        <input type="email" class="form-control input-width" id="exampleInputEmail4"
+                          placeholder="Email@example.com" formControlName="email" [ngClass]="{
+                            'is-invalid': submitted && f.email.errors
+                          }" />
+                        <!-- <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                          <div *ngIf="f.email.errors.required">
+                            Email is required.
+                          </div>
+                          <div *ngIf="f.email.errors.pattern">
+                            Email must be valid.
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="userVerify">
+                  <div class="container-fluid form_padding">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail3" class="text-dark">Mobile No</label>
+                        <div class="d-flex no-gutters">
+                          <div>
+                            <select class="form-control d-inline" id="sel1" formControlName="countryCode">
+                              <option value="+91">+91</option>
+                              <option value="+1">+1</option>
+                            </select>
+                          </div>
+                          <div class="flex-grow-1">
+                            <input type="text" class="form-control input-width" id="exampleInputEmail3"
+                              placeholder="Mobile No" maxlength="10"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                              formControlName="mobileNo" [ngClass]="{
+                                'is-invalid': submitted && f.mobileNo.errors
+                              }" />
+                            <!-- <div *ngIf="submitted && f.mobileNo.errors" class="invalid-feedback">
+                              <div *ngIf="f.mobileNo.errors.required">
+                                Mobile number is required.
+                              </div>
+                              <div *ngIf="f.mobileNo.errors.minLength">
+                                Mobile number must be valid.
+                              </div>
+                            </div> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail4" class="text-dark">Email</label>
+                        <input type="email" class="form-control input-width" id="exampleInputEmail4"
+                          placeholder="Email@example.com" formControlName="email" readonly />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="profile_login_details ">
+                  <ion-text class="font-big color_primary d-block">Address</ion-text>
+                  <!-- <ion-text class="font-small color_primary pad_top">Basic Address Of The User</ion-text> -->
+                </div>
+                <div class="container-fluid form_padding border-line">
+                  <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">Address</label>
+                      <input type="text" class="form-control input-width" id="exampleInputEmail4" placeholder="Address"
+                        formControlName="address" maxlength="70" />
+
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">City</label>
+                      <input type="text" class="form-control input-width" id="exampleInputEmail4" placeholder="City"
+                        formControlName="cityName" maxlength="30"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z.]/g, '').replace(/(\..*)\./g, '$1');" />
+
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">Country</label>
+                      <select class="form-control input-width" placeholder="Marital status"
+                        id="exampleFormControlSelectt" formControlName="countryName">
+                        <option value="" disabled>Country</option>
+                        <option vlaue="India">India</option>
+                        <option vlaue="UK">UK</option>
+                        <option vlaue="US">USA</option>
+                      </select>
+
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">Zip</label>
+                      <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxlength="6" type="text" class="form-control input-width" id="exampleInputEmail4"
+                        placeholder="Ex: 518 002" formControlName="zipCode" />
+
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <ion-grid>
+                    <ion-row class="profile_login_details ">
+                      <ion-col>
+                        <div>
+                          <ion-text class="font-big color_primary d-block">Identification Details</ion-text>
+                          <!-- <ion-text class="font-small color_primary pad_top mt-1">Your Identification Information
+                          </ion-text> -->
+                        </div>
+                      </ion-col>
+                      <ion-col>
+                        <select class="form-control input-width" formControlName="idType"
+                          (change)="selectChangeHandler($event)">
+                          <option value="" disabled>Select Identification</option>
+                          <option value="passport">Passport</option>
+                          <option value="aadhaar">Aadhaar</option>
+                        </select>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+                  <div *ngIf="aadhaarDetails">
+                    <div class="container-fluid form_padding">
+                      <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                          <label for="exampleInputEmail1" class="text-dark">Aadhaar Number</label>
+                          <input type="text" class="form-control input-width" maxlength="12" id="exampleInputEmail1"
+                            placeholder="Aadhaar Number"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                            formControlName="aadhaarnumber" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div *ngIf="!aadhaarDetails">
+                    <div class="container-fluid form_padding">
+                      <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                          <label for="exampleInputEmail1" class="text-dark">Passport Number</label>
+                          <input type="text" class="form-control input-width" id="exampleInputEmail1"
+                            placeholder="Passport Number"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z,0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                            formControlName="passportnumber" />
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                          <label for="exampleFormControlSelect1 " class="text-dark">Country</label>
+                          <select class="form-control input-width" placeholder="Country" id="exampleFormControlSelect1"
+                            formControlName="passportcountry">
+                            <option value="" disabled>Country</option>
+                            <option vlaue="India">India</option>
+                            <option vlaue="UK">UK</option>
+                            <option vlaue="US">USA</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-12 col-sm-6">
+                          <label for="exampleInputEmail2" class="text-dark">Issue Date</label>
+                          <input placeholder="Select Issue Date" type="date" id="date" class="form-control input-width"
+                            formControlName="passportissuedOn" [max]="date" (keydown)="disableDate()" />
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                          <label for="exampleInputEmail2" class="text-dark">Expiry Date</label>
+                          <input placeholder="Select Expiry Date" type="date" id="date" class="form-control input-width"
+                            formControlName="passportexpiry" [min]="minDate" (keydown)="disableDate()" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="text-right pr-4">
+                  <button data-amplify-analytics-on='click' data-amplify-analytics-name='ProfileSave'
+                    data-amplify-analytics-attrs='MyProfile' class="btn save_button">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!--  *ngIf="alreadyRecord"-->
+        <div>
+          <div *ngIf="updateDetails">
+            <form [formGroup]="registerFormEdit" (ngSubmit)="onSubmitEdit()">
+              <div class="profile_card pb-3">
+                <div class="profile_login_details">
+                  <ion-text class="font-big color_primary d-block">Profile</ion-text>
+                  <!-- <ion-text class="font-small color_primary pad_top">Basic Information Of The User</ion-text> -->
+                </div>
+                <div>
+                  <div class="container-fluid form_padding border-line">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail5" class="text-dark">Name</label>
+                        <input type="text" class="form-control input-width" id="exampleInputEmail5"
+                          placeholder="User Name" formControlName="firstName" [ngClass]="{
+                            'is-invalid': submittedEdit && e.firstName.errors
+                          }" onkeypress="return (event.charCode > 64 && event.charCode < 91) ||
+                          (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" maxlength="70" />
+                        <!-- <div *ngIf="submittedEdit && e.firstName.errors" class="invalid-feedback">
+                          <div *ngIf="e.firstName.errors.required">
+                            Name is Required
+                          </div>
+                          <div *ngIf="e.firstName.errors.minlength">
+                            Enter valid name
+                          </div>
+                        </div> -->
+                      </div>
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail6" class="text-dark">Date Of Birth</label>
+                        <input type="date" class="form-control input-width" (change)="onProfileDobEdit($event)"
+                          placeholder="Date of Birth" formControlName="dateOfBirth" [ngClass]="{
+                            'is-invalid': submittedEdit && e.dateOfBirth.errors
+                          }" [max]="minDate" />
+                        <!-- <div *ngIf="submittedEdit && e.dateOfBirth.errors" class="invalid-feedback">
+                          <div *ngIf="e.dateOfBirth.errors.required">
+                            Date of birth is Required
+                          </div>
+                        </div>
+                        <div *ngIf="sameDate">
+                          <p class="invalid_message">Enter valid date of birth</p>
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-12 col-sm-6">
+                        <label for="exampleFormControlSelectts " class="text-dark">Gender</label>
+                        <select class="form-control input-width" id="exampleFormControlSelectts"
+                          formControlName="gender" [ngClass]="{
+                            'is-invalid': submittedEdit && e.gender.errors
+                          }">
+                          <option value="null" disabled>Gender</option>
+                          <option vlaue="Male">Male</option>
+                          <option vlaue="Female">Female</option>
+                          <option vlaue="Other">Other</option>
+                        </select>
+                        <!-- <div *ngIf="submittedEdit && e.gender.errors" class="invalid-feedback">
+                          <div *ngIf="e.gender.errors.required">
+                            Gender is Required
+                          </div>
+                        </div> -->
+
+                      </div>
+                      <div class="form-group col-12 col-sm-6">
+                        <label for="exampleFormControlSelect5 text-dark" class="text-dark">Marital Status</label>
+                        <select class="form-control input-width" id="exampleFormControlSelect5"
+                          formControlName="maritalStatus" (change)="onChangemarriage($event)">
+                          <option value="null" disabled>Marital Status</option>
+                          <option value="Married">Married</option>
+                          <option value="Single">Single</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="isCustomerMarried">
+                      <div class="form-group col-12 col-sm-6">
+                        <label for="exampleInputEmail6" class="text-dark">Anniversary</label>
+                        <input type="date" class="form-control input-width" placeholder="Anniversary"
+                          formControlName="anniversary" [max]="minDate" (keydown)="disableDate()"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="profile_login_details">
+                  <ion-text class="font-big color_primary d-block">Login Details</ion-text>
+                  <ion-text class="font-small color_primary pad_top">Manage Your Credentials</ion-text>
+                </div>
+
+                <div>
+                  <div *ngIf="!userVerify" class="container-fluid form_padding border-line">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 form-group">
+                        <label for="exampleInputEmail3" class="text-dark">Mobile No</label>
+                        <div class="d-flex no-gutters">
+                          <div>
+                            <select class="form-control d-inline" id="sel1" formControlName="countryCode" disabled>
+                              <option value="+91">+91</option>
+                              <option value="+1">+1</option>
+                            </select>
+                          </div>
+                          <div class="flex-grow-1">
+                            <input maxlength="10" type="text" class="form-control" id="exampleInputEmail7"
+                              placeholder="Enter Mobile No"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                              formControlName="mobileNo" readonly />
+                            <button *ngIf="!mobileNoVerified" type="button" (click)="sendCodeForMobile()"
+                              class="btn verify">Verify Mobile</button>
+                            <ion-text *ngIf="mobileNoVerified" class="verified">
+                              <ion-icon name="checkmark-circle" class="checkmark"></ion-icon>Verified
+                            </ion-text>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 form-group position-relative">
+                        <label for="exampleInputEmail8" class="text-dark">Email</label>
+                        <input type="email" class="form-control" id="exampleInputEmail8" placeholder="name@example.com"
+                          formControlName="email" [ngClass]="{
+                            'is-invalid': submittedEdit && e.email.errors
+                          }" />
+                        <button *ngIf="!emailVerified" type="button" (click)="sendCodeForEmail()"
+                          class="btn verify">Verify Email</button>
+                        <ion-text *ngIf="emailVerified" class="verified">
+                          <ion-icon name="checkmark-circle" class="checkmark"></ion-icon>Verified
+                        </ion-text>
+
+                        <!-- <div *ngIf="submittedEdit && e.email.errors" class="invalid-feedback">
+                          <div *ngIf="e.email.errors.required">
+                            Email is required
+                          </div>
+                          <div *ngIf="e.email.errors.pattern">
+                            Enter valid email
+                          </div>
+                        </div> -->
+                        <div *ngIf="verifyEmailErrorMessage">
+                          <p class="invalid_message">
+                            {{verifyEmailErrorMessage}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div *ngIf="userVerify" class="container-fluid form_padding border-line">
+                    <div class="row">
+                      <div class="col-12 col-sm-6 form-group position-relative">
+                        <label for="exampleInputEmail7" class="text-dark">Mobile No</label>
+                        <div class="d-flex no-gutters">
+                          <div>
+                            <select class="form-control d-inline" id="sel1" formControlName="countryCode">
+                              <option value="+91">+91</option>
+                              <option value="+1">+1</option>
+                            </select>
+                          </div>
+                          <div class="flex-grow-1">
+                            <input maxlength="10" type="text" class="form-control" id="exampleInputEmail7"
+                              placeholder="Enter Mobile No"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                              formControlName="mobileNo" [ngClass]="{
+                                'is-invalid': submittedEdit && e.mobileNo.errors
+                              }" />
+                            <button *ngIf="!mobileNoVerified" type="button" (click)="sendCodeForMobile()"
+                              class="btn verify">Verify Mobile</button>
+                            <ion-text *ngIf="mobileNoVerified" class="verified">
+                              <ion-icon name="checkmark-circle" class="checkmark"></ion-icon>Verified
+                            </ion-text>
+                            <!-- <div *ngIf="submittedEdit && e.mobileNo.errors" class="invalid-feedback">
+                              <div *ngIf="e.mobileNo.errors.required">
+                                Mobile number is required.
+                              </div>
+                              <div *ngIf="e.mobileNo.errors.minlength">
+                                Mobile number must be valid.
+                              </div>
+                            </div> -->
+                            <div *ngIf="verifyMobileErrorMessage">
+                              <p class="invalid_message">
+                                {{verifyMobileErrorMessage}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 form-group position-relative">
+                        <label for="exampleInputEmail8" class="text-dark">Email</label>
+                        <input type="email" class="form-control" id="exampleInputEmail8" placeholder="name@example.com"
+                          formControlName="email" readonly />
+                        <button *ngIf="!emailVerified" type="button" (click)="sendCodeForEmail()"
+                          class="btn verify">Verify Email</button>
+                        <ion-text *ngIf="emailVerified" class="verified">
+                          <ion-icon name="checkmark-circle" class="checkmark"></ion-icon>Verified
+                        </ion-text>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="profile_login_details">
+                  <ion-text class="font-big color_primary d-block">Address</ion-text>
+                  <!-- <ion-text class="font-small color_primary pad_top">Basic Address Of The User</ion-text> -->
+                </div>
+                <div class="container-fluid form_padding border-line">
+                  <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">Address</label>
+                      <input type="text" class="form-control input-width" id="exampleInputEmail4" placeholder="Address"
+                        formControlName="address" maxlength="70" />
+
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">City</label>
+                      <input type="text" class="form-control input-width" id="exampleInputEmail4"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z.]/g, '').replace(/(\..*)\./g, '$1');"
+                        placeholder="City" formControlName="cityName" maxlength="30" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">Country</label>
+                      <select class="form-control input-width" placeholder="Country" id="exampleFormControlSelect1"
+                        formControlName="countryName">
+                        <option value="" disabled>Country</option>
+                        <option vlaue="India">India</option>
+                        <option vlaue="UK">UK</option>
+                        <option vlaue="US">USA</option>
+                      </select>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                      <label for="exampleInputEmail4" class="text-dark">Zip</label>
+                      <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                        maxlength="6" type="text" class="form-control input-width" id="exampleInputEmail4"
+                        placeholder="Ex: 518 002" formControlName="zipCode" />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <ion-grid class="iddetails_show">
+                    <ion-row class="profile_login_details ">
+                      <ion-col>
+                        <div>
+                          <ion-text class="font-big color_primary d-block ">Identification Details</ion-text>
+                          <!-- <ion-text class="font-small color_primary pad_top">Your Identification Information</ion-text> -->
+                        </div>
+                      </ion-col>
+                      <ion-col class="pad-r-15">
+                        <select class="form-control input-width" formControlName="idType"
+                          (change)="selectChangeHandler($event)">
+                          <option value="" disabled>Select Identification</option>
+                          <option value="passport">Passport Details</option>
+                          <option value="aadhaar">Aadhaar Details</option>
+                        </select>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <ion-grid class="iddetails_show_screen">
+                    <ion-row class="profile_login_details ">
+                      <ion-col size="12">
+                        <div>
+                          <ion-text class="font-big color_primary d-block mb-3">Identification Details</ion-text>
+                          <!-- <ion-text class="font-small color_primary pad_top">Your Identification Information</ion-text> -->
+                        </div>
+                      </ion-col>
+                      <ion-col size="12" class="pad-r-15">
+                        <select class="form-control input-width" formControlName="idType"
+                          (change)="selectChangeHandler($event)">
+                          <option value="" disabled>Select Identification</option>
+                          <option value="passport">Passport Details</option>
+                          <option value="aadhaar">Aadhaar Details</option>
+                        </select>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div *ngIf="aadhaarDetails">
+                    <div class="container-fluid form_padding">
+                      <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                          <label for="exampleInputEmail1" class="text-dark">Aadhaar Number</label>
+                          <input type="text" class="form-control input-width" maxlength="12" id="exampleInputEmail1"
+                            placeholder="Aadhaar number"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                            formControlName="aadhaarnumber" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div *ngIf="!aadhaarDetails">
+                    <div class="container-fluid form_padding">
+                      <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                          <label for="exampleInputEmail1" class="text-dark">Passport Number</label>
+                          <input type="text" class="form-control input-width" id="exampleInputEmail1"
+                            placeholder="Passport Number"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z,0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                            formControlName="passportnumber" />
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                          <label for="exampleFormControlSelect1 " class="text-dark">Country</label>
+                          <select class="form-control input-width" placeholder="Country" id="exampleFormControlSelect1"
+                            formControlName="passportcountry">
+                            <option value="" disabled>Country</option>
+                            <option vlaue="India">India</option>
+                            <option vlaue="UK">UK</option>
+                            <option vlaue="US">USA</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="form-group col-12 col-sm-6">
+                          <label for="exampleInputEmail2" class="text-dark">Issue Date</label>
+                          <input type="date" class="form-control input-width" placeholder="Select Issue Date"
+                            formControlName="passportissuedOn" [max]="date" (keydown)="disableDate()" />
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                          <label for="exampleInputEmail2" class="text-dark">Expiry Date</label>
+                          <input type="date" class="form-control input-width" placeholder="Select Expiry Date"
+                            formControlName="passportexpiry" [min]="minDate" (keydown)="disableDate()" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right pr-4">
+                  <button data-amplify-analytics-on='click' data-amplify-analytics-name='ProfileUpdate'
+                    data-amplify-analytics-attrs='MyProfile' class="btn save_button btn_hover btn_focus_bg_clr">Update</button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>
+
+
+<div *ngIf="loadMess" class="center_image">
+  <div class="w3-card w3-yellow" style="width: 18rem;">
+    <div>
+      <div class="toasterColor ">
+        Profile updated successfully&nbsp;&nbsp;&nbsp;&nbsp;<span class="close_tooster ml-2 float-right"
+          (click)="closeTooster()">&#10005;</span>
+      </div>
+    </div>
+  </div>
+</div>

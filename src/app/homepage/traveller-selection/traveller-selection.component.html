@@ -1,0 +1,855 @@
+<ion-content class="bg-custom">
+
+  <div class="main_div">
+    <div class="container">
+      <div class="row">
+        <div class='col-lg-8'>
+          <a class="Font_backicon d-flex py-3" (click)="goBack()" *ngIf="customBook">
+            <ion-icon name="arrow-back" class="Size_backicon">
+            </ion-icon>&nbsp;Customize Itinerary
+          </a>
+
+          <a class="Font_backicon d-flex py-3" (click)="goBackStaycation()" *ngIf="!customBook">
+            <ion-icon name="arrow-back" class="Size_backicon">
+            </ion-icon>&nbsp;Staycation Preview
+          </a>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class='col-lg-8'>
+          <div class="row">
+            <div class='col-sm-12' *ngIf="userDetails.firstName?.length>0">
+              <ion-card class="bg-white book-now">
+                <ion-card-content color="tertiary">
+                  <div>
+                    <ion-text class="primary_header d-block">Primary Contact</ion-text>
+                    <p class="contact_count">We will contact you on this number. You can email or whatsapp the ticket to
+                      other contacts.</p>
+                    <hr class="line_contact" />
+                    <ion-grid class="mobile_screen_resp_none">
+                      <ion-row>
+                        <ion-col size="4">
+                          <div>
+                            <ion-icon name="person" class="Size_contact mt-2"></ion-icon>
+                            &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.firstName}}</span>
+                          </div>
+                        </ion-col>
+                        <ion-col size="4">
+                          <div>
+                            <ion-icon name="mail" class="Size_contact  mt-2"></ion-icon>
+                            &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.email}}</span>
+                          </div>
+                        </ion-col>
+                        <ion-col size="4">
+                          <div>
+                            <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                            &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.mobileNo}}</span>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+
+                    <ion-grid class="mobile_screen_resp">
+                      <ion-row>
+                        <ion-col size="12">
+                          <div>
+                            <ion-icon name="person" class="Size_contact mt-2"></ion-icon>
+                            &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.firstName}}</span>
+                          </div>
+                        </ion-col>
+                        <ion-col size="12">
+                          <div>
+                            <ion-icon name="mail" class="Size_contact  mt-2"></ion-icon>
+                            &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.email}}</span>
+                          </div>
+                        </ion-col>
+                        <ion-col size="12">
+                          <div>
+                            <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                            &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.mobileNo}}</span>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </div>
+                  <div *ngIf="customBook">
+                    <div class="form-group form-check move_check mt-2">
+                      <label> <input type="checkbox" [(ngModel)]="hideForm" class="check_color"
+                          (change)="onTraveller($event)" data-toggle="collapse" href="#collapseExample" role="button"
+                          aria-expanded="false" aria-controls="collapseExample" /><span class="form-check-label"> Click
+                          here to share booking details to below contact</span></label>
+                    </div>
+                    <div *ngIf="showDetails" id="collapseExample">
+                      <div *ngIf="hideForm" id="collapseExample">
+                        <form [formGroup]="registerFormForTraveller" (ngSubmit)="onSubmitTraveller()">
+                          <div class="row">
+                            <div class="col-12 col-sm-6 form-group">
+                              <label class="text-dark mb_2">Email</label>
+                              <input type="email" class="form-control input-width" placeholder="Email@example.com"
+                                formControlName="email" [ngClass]="{
+                                  'is-invalid': submittedTraveller && t.email.errors
+                                }" />
+                              <!-- <div *ngIf="submittedTraveller && t.email.errors" class="invalid-feedback">
+                                <div *ngIf="t.email.errors.required">
+                                  Email is required.
+                                </div>
+                                <div *ngIf="t.email.errors.pattern">
+                                  Email must be valid.
+                                </div>
+                              </div> -->
+                            </div>
+                            <div class="col-12 col-sm-6 form-group">
+                              <label class="text-dark mb_2">Mobile No</label>
+                              <div class="d-flex no-gutters">
+                                <div>
+                                  <select class="form-control d-inline" id="sel1" formControlName="countryCode">
+                                    <option value="+91">+91</option>
+                                    <option value="+1">+1</option>
+                                  </select>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <input type="text" class="form-control input-width" placeholder="Mobile No"
+                                    maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                    formControlName="mobileNo" [ngClass]="{
+                                        'is-invalid': submittedTraveller && t.mobileNo.errors
+                                      }" />
+                                  <!-- <div *ngIf="submittedTraveller && t.mobileNo.errors" class="invalid-feedback">
+                                      <div *ngIf="t.mobileNo.errors.required">
+                                        Mobile number is required.
+                                      </div>
+                                      <div *ngIf="t.mobileNo.errors.minLength">
+                                        Mobile number must be valid.
+                                      </div>
+                                    </div> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="text-right">
+                            <button class="btn save_button mb_2 btn_hover btn_focus_bg_clr">Add</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div *ngIf="!showDetails" id="collapseExample">
+                      <ion-text class="primary_header d-block">Traveller Contact</ion-text>
+                      <p class="contact_count">We will contact you on this number. You can email or whatsapp the ticket
+                        to
+                        other contacts.</p>
+                      <hr class="line_contact" />
+                      <div class="row">
+                        <div class="col-12 col-sm-4 form-group">
+                        </div>
+                        <div class="col-12 col-sm-4 form-group">
+                          <ion-icon name="mail" class="Size_contact mt-2"></ion-icon>
+                          &nbsp;&nbsp;<span class="name_ellipsis">{{TravellerInfo.travellerEmail}}</span>
+                        </div>
+                        <div class="col-12 col-sm-4 form-group">
+                          <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                          &nbsp;&nbsp;<span class="name_ellipsis">{{TravellerInfo.travellerMobile}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="!customBook">
+                    <div class="form-group form-check move_check mt-2">
+                      <label> <input type="checkbox" [(ngModel)]="hideFormStaycation" class="check_color"
+                          (change)="onTravellerStaycation($event)" data-toggle="collapse"
+                          href="#collapseExampleStaycation" role="button" aria-expanded="false"
+                          aria-controls="collapseExample" /><span class="form-check-label"> Click here to share booking
+                          details to below contact</span></label>
+                    </div>
+                    <div *ngIf="showDetailsStaycation" id="collapseExampleStaycation">
+                      <div *ngIf="hideFormStaycation" id="collapseExampleStaycation">
+                        <form [formGroup]="registerFormForTravellerStaycation"
+                          (ngSubmit)="onSubmitTravellerStaycation()">
+                          <div class="row">
+                            <div class="col-12 col-sm-6 form-group">
+                              <label class="text-dark mb_2">Email</label>
+                              <input type="email" class="form-control input-width" placeholder="Email@example.com"
+                                formControlName="email" [ngClass]="{
+                                  'is-invalid': submittedTravellerStaycation && ts.email.errors
+                                }" />
+                              <!-- <div *ngIf="submittedTraveller && t.email.errors" class="invalid-feedback">
+                                <div *ngIf="t.email.errors.required">
+                                  Email is required.
+                                </div>
+                                <div *ngIf="t.email.errors.pattern">
+                                  Email must be valid.
+                                </div>
+                              </div> -->
+                            </div>
+                            <div class="col-12 col-sm-6 form-group">
+                              <label class="text-dark mb_2">Mobile No</label>
+                              <div class="d-flex no-gutters">
+                                <div>
+                                  <select class="form-control d-inline" id="sel1" formControlName="countryCode">
+                                    <option value="+91">+91</option>
+                                    <option value="+1">+1</option>
+                                  </select>
+                                </div>
+                                <div class="flex-grow-1">
+                                  <input type="text" class="form-control input-width" placeholder="Mobile No"
+                                    maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                    formControlName="mobileNo" [ngClass]="{
+                                        'is-invalid': submittedTravellerStaycation && ts.mobileNo.errors
+                                      }" />
+                                  <!-- <div *ngIf="submittedTraveller && t.mobileNo.errors" class="invalid-feedback">
+                                      <div *ngIf="t.mobileNo.errors.required">
+                                        Mobile number is required.
+                                      </div>
+                                      <div *ngIf="t.mobileNo.errors.minLength">
+                                        Mobile number must be valid.
+                                      </div>
+                                    </div> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="text-right">
+                            <button class="btn save_button mb_2 btn_hover btn_hover">Add</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div *ngIf="!showDetailsStaycation" id="collapseExampleStaycation">
+                      <ion-text class="primary_header d-block">Traveller Contact</ion-text>
+                      <p class="contact_count">We will contact you on this number. You can email or whatsapp the ticket
+                        to
+                        other contacts.</p>
+                      <hr class="line_contact" />
+                      <div class="row">
+                        <div class="col-12 col-sm-4 form-group">
+                        </div>
+                        <div class="col-12 col-sm-4 form-group">
+                          <ion-icon name="mail" class="Size_contact mt-2"></ion-icon>
+                          &nbsp;&nbsp;<span class="name_ellipsis">{{TravellerInfoStaycation.travellerEmail}}</span>
+                        </div>
+                        <div class="col-12 col-sm-4 form-group">
+                          <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                          &nbsp;&nbsp;<span class="name_ellipsis">{{TravellerInfoStaycation.travellerMobile}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </ion-card-content>
+              </ion-card>
+            </div>
+            <div class='col-lg-12'>
+              <ion-card class="bg-white book-now">
+                <ion-card-content>
+                  <ion-text class="primary_header d-block">Travellers Profile</ion-text>
+                  <ion-text class="travellers_count pb-4">{{homeSelectedCount.adultCount}} adult</ion-text>
+                  <ion-text *ngIf="homeSelectedCount.childCount>0"> ,{{homeSelectedCount.childCount}} children
+                  </ion-text>
+                  <ion-text *ngIf="homeSelectedCount.infantCount>0"> & {{homeSelectedCount.infantCount}} infant
+                  </ion-text>
+                  <div class="row no-gutters accordion" id="accordion">
+                    <div class="col-lg-8">
+                      <div>
+                        <form [formGroup]="dynamicForm">
+                          <div formArrayName="adultsInput">
+                            <div *ngFor="let city of adultsInput.controls; index as i" class="position-relative">
+                              <ion-text class="primary_header_small">Adult - {{i+1}}</ion-text>
+                              <p class="font_size">(12> age)</p>
+                              <div class="no-gutters row">
+                                <div class="position-relative wrapper_div">
+                                  <ion-icon name="caret-down-sharp" class="chiv_down cursor-pointer"
+                                    data-toggle="collapse" [attr.data-target]="'#adultCollapse-' + i"></ion-icon>
+                                  <input readonly class="cursor-pointer  form-control input_box collapsed"
+                                    placeholder="Select Adult" [formControlName]="i" data-toggle="collapse"
+                                    [attr.data-target]="'#adultCollapse-' + i"
+                                    [attr.aria-controls]="'adultCollapse-' + i"
+                                    [ngClass]="{ 'is-invalid': (submitted &&getValidity(i,'adult'))||
+                                  ((adultAt(i).errors?.passportValidator?.value=='passportNotFound') && adultAt(i).dirty)  }">
+                                </div>
+                                <span
+                                  *ngIf="(adultAt(i).errors?.passportValidator?.value=='passportNotFound') && adultAt(i).dirty"
+                                  class="text-danger cursor-pointer d-inline-block add_passport_link" (click)="
+                                  editTraveller(adults[adultSelectedIndexes[i]]);$event.stopPropagation()"
+                                  data-target="#editTraveller" data-toggle="modal" data-backdrop="static"
+                                  data-keyboard="false">
+                                  Add passport details</span>
+                              </div>
+                              <div [attr.id]="'adultCollapse-' + i" data-parent="#accordion"
+                                class="collapse bg-white wrapper_div drop_down_div">
+                                <div class="p_custom">
+                                  <span class="cursor-pointer add" (click)="openModel('adult')">+ Add Adult</span>
+                                  <div class="no-gutters" *ngFor="let adult of adults; index as a">
+                                    <span class="d-block  cursor-pointer pt-2 pb-2 drop_values" *ngIf="adultDisplay[a]"
+                                      (click)="adultSelect(adult,i,a)">{{adult.firstName}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div formArrayName="childrenInput">
+                            <div *ngFor="let city of childrenInput.controls; index as i" class="position-relative">
+                              <ion-text class="primary_header_small">Child - {{i+1}}</ion-text>
+                              <p class="font_size">(2-12 age)</p>
+                              <div class="row no-gutters">
+                                <div class="position-relative wrapper_div">
+                                  <ion-icon name="caret-down-sharp" class="chiv_down cursor-pointer"></ion-icon>
+                                  <input readonly class="cursor-pointer form-control input_box collapsed"
+                                    placeholder="Select Children" [formControlName]="i" data-toggle="collapse"
+                                    [attr.data-target]="'#childrenCollapse-' + i"
+                                    [attr.aria-controls]="'childrenCollapse-' + i"
+                                    [ngClass]="{ 'is-invalid':(submitted &&getValidity(i,'child'))||
+                                  ((childAt(i).errors?.passportValidator?.value=='passportNotFound') && childAt(i).dirty) }">
+                                </div>
+                                <span
+                                  *ngIf="(childAt(i).errors?.passportValidator?.value=='passportNotFound') && childAt(i).dirty"
+                                  class="text-danger cursor-pointer d-inline-block add_passport_link" (click)="
+                                  editTraveller(children[childSelectedIndexes[i]]);$event.stopPropagation()"
+                                  data-target="#editTraveller" data-toggle="modal" data-backdrop="static"
+                                  data-keyboard="false">
+                                  Add passport details</span>
+                              </div>
+                              <div [attr.id]="'childrenCollapse-' + i" data-parent="#accordion"
+                                class="collapse bg-white wrapper_div drop_down_div">
+                                <div class="p_custom">
+                                  <span class="cursor-pointer add" (click)="openModel('child')">+ Add Child</span>
+                                  <div class="no-gutters" *ngFor="let child of children; index as c">
+                                    <span class="d-block  cursor-pointer pt-2 pb-2 drop_values" *ngIf="childDisplay[c]"
+                                      (click)="childSelect(child,i,c)">{{child.firstName}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div formArrayName="infantsInput">
+                            <div *ngFor="let city of infantsInput.controls; index as i" class="position-relative">
+                              <ion-text class="primary_header_small">Infant - {{i+1}}</ion-text>
+                              <p class="font_size">(0-2 age)</p>
+                              <div class="row no-gutters">
+                                <div class="position-relative wrapper_div ">
+                                  <ion-icon name="caret-down-sharp" class="chiv_down cursor-pointer"></ion-icon>
+                                  <input readonly class="cursor-pointer form-control input_box collapsed"
+                                    placeholder="Select Infants" [formControlName]="i" data-toggle="collapse"
+                                    [attr.data-target]="'#infantCollapse-' + i"
+                                    [attr.aria-controls]="'infantCollapse-' + i"
+                                    [ngClass]="{ 'is-invalid':(submitted &&getValidity(i,'infant'))||
+                                    ((infantAt(i).errors?.passportValidator?.value=='passportNotFound') && infantAt(i).dirty) }">
+                                </div>
+                                <span
+                                  *ngIf="(infantAt(i).errors?.passportValidator?.value=='passportNotFound') && infantAt(i).dirty"
+                                  class="text-danger cursor-pointer d-inline-block add_passport_link" (click)="
+                                  editTraveller(infants[infantSelectedIndexes[i]]);$event.stopPropagation()"
+                                  data-target="#editTraveller" data-toggle="modal" data-backdrop="static"
+                                  data-keyboard="false">
+                                  Add passport details</span>
+                              </div>
+                              <div [attr.id]="'infantCollapse-' + i" data-parent="#accordion"
+                                class="collapse bg-white wrapper_div drop_down_div">
+                                <div class="p_custom">
+                                  <span class="cursor-pointer add" (click)="openModel('infant')">+ Add Infant</span>
+                                  <div class="no-gutters" *ngFor="let infant of infants; index as inf">
+                                    <span class="d-block cursor-pointer pt-2 pb-2 drop_values"
+                                      *ngIf="infantDisplay[inf]"
+                                      (click)="infantSelect(infant,i,inf)">{{infant.firstName}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </div>
+        </div>
+
+        <div class='col-lg-4' *ngIf="!customBook">
+          <ion-card class="bg-white book-now">
+            <ion-card-header color="tertiary" class="p-3">
+              <span *ngIf="!discountPrice" class="total_price d-block pt-2">{{
+                finalPackagePrice| currency:"₹ " : false : '2.0-0'
+                }}</span>
+              <span *ngIf="discountPrice" class="total_price d-block pt-2">{{
+                couponCodeprice| currency:"₹ " : false : '2.0-0'
+                }}</span>
+              <ion-note>
+                <div class="days_nights mt-3">
+                  {{ staycationPreviewData?.packageValues?.numberOfDays }}
+                  {{staycationPreviewData?.packageValues?.numberOfDays>1?'Days':'Day'}} & {{
+                  staycationPreviewData?.packageValues?.numberOfNights
+                  }}
+                  {{staycationPreviewData?.packageValues?.numberOfNights>1?'Nights':'Night'}}
+                </div>
+              </ion-note>
+            </ion-card-header>
+            <ion-card-content>
+              <br />
+              <ion-grid class="mt-2">
+                <ion-row>
+                  <ion-col size="8" class="font_sizeTravel">{{staycationPreviewData?.packagename}}</ion-col>
+                  <ion-col size="4" class="font_sizeTravel">
+                    &nbsp;{{actualPackagePrice|
+                    currency:"₹ "
+                    : false :
+                    '2.0-0'}}</ion-col>
+                </ion-row>
+
+                <ion-row *ngIf="discountPrice">
+                  <ion-col size="8" class="font_sizeTravel mt-1">{{couponCoderes}}</ion-col>
+                  <ion-col size="4" class="font_sizeTravel">
+                    -&nbsp;{{ totalDeceased | currency:"₹ " : false : '2.0-0'}}</ion-col>
+                </ion-row>
+
+                <ion-row *ngIf="discountPrice">
+                  <ion-col size="8" class="font_sizeTravel mt-1"> Discounted Price</ion-col>
+                  <ion-col size="4" class="font_sizeTravel">
+                    &nbsp;{{ couponCodeprice | currency:"₹ " : false : '2.0-0'}}</ion-col>
+                </ion-row>
+              </ion-grid>
+              <br />
+              <div *ngIf="userPresent">
+                <div class="select_travelerError">Please fill the profile to proceed your payment&nbsp;<a
+                    class="add_profile" (click)="openModel('adult')">Add Profile</a></div>
+              </div>
+              <p class="policy_traveller">By proceeding, I confirm that I have read the <span><a class="policy_colour"
+                    data-toggle="modal" data-target="#exampleModalCenter1">Cancellation Policy,</a></span> <span><a
+                    class="policy_colour" routerLink="/policy">User Agreement,
+                    Terms of Service and
+                    Privacy Policy&nbsp;</a></span>of Voyaah</p>
+              <div class="ion-text-center mt-3">
+                <button class="travel_button text-white w-100" (click)="paymentProceed()">Proceed to Payment</button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div class='col-lg-4' *ngIf="customBook">
+          <ion-card class="bg-white book-now">
+            <ion-card-header color="tertiary" class="p-3">
+              <!-- <p>Grand Total</p> -->
+              <span class="total_price d-block pt-2" *ngIf="GrandTotalCurrency?.length>0">{{ GrandTotal | currency:"₹ "
+                : false :
+                '2.0-0'}}</span>
+
+              <ion-note>
+                <div class="days_nights mt-3">
+                  {{ totalDate }}
+                  {{totalDate>1?'Days':'Day'}} & {{
+                  TotalPersons
+                  }}
+                  {{TotalPersons>1?'Persons':'Person'}}
+                </div>
+              </ion-note>
+            </ion-card-header>
+            <ion-card-content>
+              <br />
+              <ion-grid class="d-inline-block ml-auto mt-2">
+                <table class="position-relative" style="width: 250px">
+                  <tr *ngIf="flightFareTotalForAllFlights !='0.0'">
+                    <td class="font_sizeTravel ">Flights</td>
+                    <br />
+                    <td class="font_sizeTravel" *ngIf="currencyTypeFilterTotal?.length>0">
+                      {{ flightFareTotalForAllFlights | currency:"₹ " : false : '2.0-0' }}
+                    </td>
+                    <div (click)="toggle()">
+                      <ion-icon name="{{ buttonName }}" size="small" class="main_chiv_symbol cursor-pointer"></ion-icon>
+                    </div>
+                  </tr>
+                  <tr *ngIf="show">
+                    <td class="font_sizeTrave2 ">{{ equivFare }}</td>
+                    <br />
+                    <td class="font_sizeTrave2" *ngIf="currencyTypeFilterTotal?.length>0">
+                      {{ flightEquiFarePriceeForAllFlights | currency:"₹ " : false : '2.0-0' }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="show">
+                    <td class="font_sizeTrave2 ">{{ totalTax }}</td>
+                    <br />
+                    <td class="font_sizeTrave2" *ngIf="currencyTypeFilterTotal?.length>0">
+                      {{ flightTaxPriceForAllFlights | currency:"₹ " : false : '2.0-0' }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="hotelPriceTotal != 0.0">
+                    <td class="font_sizeTravel ">Hotels</td>
+                    <br />
+                    <td class="font_sizeTravel" *ngIf="hotelPriceTotal != 0.0">
+                      {{ hotelPriceTotal | currency:"₹ " : false : '2.0-0' }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="activityPrice != 0.0">
+                    <td class="font_sizeTravel ">Activities</td>
+                    <br />
+                    <td class="font_sizeTravel">
+                      {{ activityPrice |
+                      currency:"₹ " : false : '2.0-0'}}
+                    </td>
+                  </tr>
+                </table>
+              </ion-grid>
+              <br />
+              <p class="policy_traveller">By proceeding, I confirm that I have read the
+                <!-- <span><a class="policy_colour"
+                    data-toggle="modal" data-target="#exampleModalCenter1">Cancellation Policy,</a></span>  -->
+                <span><a class="policy_colour" routerLink="/policy">User Agreement,
+                    Terms of Service and
+                    Privacy Policy&nbsp;</a></span>of Voyaah
+              </p>
+              <div class="ion-text-center mt-3">
+                <button class="travel_button text-white w-100" (click)="revalidatingApi()">Preview Itinerary</button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+        <div class='col-sm-8' *ngIf="userDetails.firstName?.length>0">
+          <ion-card class="bg-white book-now">
+            <ion-card-content color="tertiary">
+              <div>
+                <ion-text class="primary_header d-block">Primary Contact</ion-text>
+                <p class="contact_count">We will contact you on this number. You can email or whatsapp the ticket to
+                  other contacts.</p>
+                <hr class="line_contact" />
+                <ion-grid class="mobile_screen_resp_none">
+                  <ion-row>
+                    <ion-col size="4">
+                      <div>
+                        <ion-icon name="person" class="Size_contact mt-2"></ion-icon>
+                        &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.firstName}}</span>
+                      </div>
+                    </ion-col>
+                    <ion-col size="4">
+                      <div>
+                        <ion-icon name="mail" class="Size_contact  mt-2"></ion-icon>
+                        &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.email}}</span>
+                      </div>
+                    </ion-col>
+                    <ion-col size="4">
+                      <div>
+                        <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                        &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.mobileNo}}</span>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+
+                <ion-grid class="mobile_screen_resp">
+                  <ion-row>
+                    <ion-col size="12">
+                      <div>
+                        <ion-icon name="person" class="Size_contact mt-2"></ion-icon>
+                        &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.firstName}}</span>
+                      </div>
+                    </ion-col>
+                    <ion-col size="12">
+                      <div>
+                        <ion-icon name="mail" class="Size_contact  mt-2"></ion-icon>
+                        &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.email}}</span>
+                      </div>
+                    </ion-col>
+                    <ion-col size="12">
+                      <div>
+                        <ion-icon name="call" class="Size_contact  mt-2"></ion-icon>
+                        &nbsp;&nbsp;<span class="name_ellipsis">{{userDetails.mobileNo}}</span>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div> -->
+    </div>
+
+
+
+
+
+    <div class="modal fade modal_background" id="exampleModalCenter1" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-justify ">
+          <div class="position-relative pl-3 pr-3 pt-2 pb-2">
+            <div class="modal-title text-theming-color m-0 text-center d-block" id="exampleModalLabel">
+              <span class="font-16"><b>Terms & Conditions</b></span>
+            </div>
+            <ion-icon name="close-circle-outline" class="modal_close position-absolute" data-dismiss="modal"
+              aria-label="Close">
+            </ion-icon>
+            <!-- <button type="button" class="close modal_close position-absolute" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button> -->
+          </div>
+          <div class="modal-body terms-condition-body">
+            <div class="text-theming-color">
+              <h3><b>Booking Validity</b></h3>
+              <p>
+                {{ staycationPreviewData?.packageValues?.bookingValidity }}
+              </p>
+              <h3><b>Blackout Dates</b></h3>
+              <p *ngFor="
+                  let a of staycationPreviewData?.packageValues?.blackoutDates
+                ">
+                {{ a.note }}
+              </p>
+              <h3><b>Child Policy</b></h3>
+              <p>
+                {{
+                staycationPreviewData?.packageValues?.cancellation
+                ?.childPolicyNote
+                }}
+              </p>
+              <h3><b>Reschedule Policy:</b></h3>
+              <p>
+                {{
+                staycationPreviewData?.packageValues?.reschedulePolicy
+                ?.specialNote
+                }}
+              </p>
+              <h3><b>Cancellation Policy:</b></h3>
+              <p>
+                {{
+                staycationPreviewData?.packageValues?.cancellation
+                ?.specialNote
+                }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</ion-content>
+<div class="loading-block col-12" *ngIf="isLoading">
+  <div class="text-center">
+    <img class="loader-image" src="../../../assets/images/logo.svg" alt="Voyaah Logo" />
+  </div>
+  <div class="message text-center">Loading, Please Wait...</div>
+  <div class="mx-auto preloader">
+    <i>.</i>
+    <i>.</i>
+    <i>.</i>
+  </div>
+</div>
+
+<div *ngIf="modalDisplay">
+  <div class="blur-box spinner_overlay"></div>
+  <div class="center_image">
+    <div class="card pay_center" style="width: 18rem">
+      <div style="border-radius: 10px">
+        <div class="fail_trip_color">
+          <div class="modal-body fail_trip_head" *ngIf="validationModal">
+            <h3 class="fail_trip_font1">Validating your bookings</h3>
+            <p>Please do not Refresh the page/click Back button</p>
+            <img src="../../../assets/images/loader.gif" class="failtrip_link" />
+          </div>
+          <div class="modal-body fail_trip_head" *ngIf="selectRoomModal">
+            <h3 class="fail_trip_font1">Selected room is not available</h3>
+            <p>Please Select different dates</p>
+            <button class="trip_button fail_trip_font1" data-dismiss="modal" (click)="openRoomSelection()">
+              Close
+            </button>
+          </div>
+          <div class="modal-body fail_trip_head" *ngIf="errorWhileValidation">
+            <h3 class="fail_trip_font1">{{errorText}}</h3>
+            <button class="trip_button fail_trip_font1" data-dismiss="modal" (click)="openRoomSelection()">
+              Close
+            </button>
+          </div>
+          <div class="modal-body fail_trip_head" *ngIf="errorWhileBooking">
+            <h3 class="fail_trip_font1">Error while booking</h3>
+            <button class="trip_button fail_trip_font1" data-dismiss="modal" (click)="openRoomSelection()">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal mt-5" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-theming-color" id="exampleModalLabel">
+          <b>Terms & Conditions</b>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body terms-condition-body text-justify">
+        <div class="text-theming-color">
+          <h3><b>Booking Validity</b></h3>
+          <p>
+            {{ staycationPreviewData?.packageValues?.bookingValidity }}
+          </p>
+          <h3><b>Blackout Dates</b></h3>
+          <p *ngFor="
+              let a of staycationPreviewData?.packageValues?.blackoutDates
+            ">
+            {{ a.note }}
+          </p>
+          <h3><b>Child Policy</b></h3>
+          <p>
+            {{
+            staycationPreviewData?.packageValues?.cancellation
+            ?.childPolicyNote
+            }}
+          </p>
+          <h3><b>Reschedule Policy:</b></h3>
+          <p>
+            {{
+            staycationPreviewData?.packageValues?.reschedulePolicy
+            ?.specialNote
+            }}
+          </p>
+          <h3><b>Cancellation Policy:</b></h3>
+          <p>
+            {{
+            staycationPreviewData?.packageValues?.cancellation
+            ?.specialNote
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" data-backdrop="true" id="editTraveller">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-postions">
+    <div class="modal-content moda-content-border">
+      <div class="card-header bg-color-header p-4 shadow">
+        <span class="top_close_btn cursor-pointer" data-dismiss="modal"><i
+            class="fal fa-times-circle fa_lg_button"></i></span>
+        <div>
+          <ion-text color="tertiary" class="text_primary">Edit Traveller</ion-text>
+          <ion-note class="font-size-header d-block">Edit/Save Travellers For A Faster Booking Experience
+          </ion-note>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm" class="pb-5">
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Name</label>
+            <input formControlName="firstName" type="text" class="form-control" id="name" placeholder="Name" onkeypress="return (event.charCode > 64 && event.charCode < 91) ||
+            (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" maxlength="30" [ngClass]="{
+                'is-invalid': editFormSubmitted && registerFormControl.firstName.errors
+              }" />
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select class="form-control" id="gender" formControlName="gender" placeholder="Gender" [ngClass]="{
+              'is-invalid': editFormSubmitted && registerFormControl.gender.errors
+            }">
+              <option value="" selected disabled>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input formControlName="email" type="text" class="form-control" id="email" placeholder="email@gmail.com"
+              [ngClass]="{
+                'is-invalid': editFormSubmitted && registerFormControl.email.errors
+              }" />
+          </div>
+
+          <div class="form-group">
+            <label for="name">Mobile No</label>
+            <div class="d-flex no-gutters">
+              <div>
+                <select class="form-control d-inline" id="sel1" formControlName="countryCode">
+                  <option value="+91">+91</option>
+                  <option value="+1">+1</option>
+                </select>
+              </div>
+              <div class="flex-grow-1">
+                <input formControlName="mobileNo" class="form-control" id="mobile" placeholder="Enter Mobile No"
+                  maxlength="10"
+                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" [ngClass]="{
+                    'is-invalid': editFormSubmitted && registerFormControl.mobileNo.errors
+                  }" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <input type="date" formControlName="dateOfBirth" placeholder="Date Of Birth" class="form-control"
+              id="dateOfBirth" [max]="minDate" (keydown)="disableDate()" [ngClass]="{
+                'is-invalid': editFormSubmitted && registerFormControl.dateOfBirth.errors
+              }" />
+          </div>
+          <div>
+            <ion-text color="tertiary" class="text_primary d-block">Passport Details</ion-text>
+            <ion-note>Add/Save Passport Details</ion-note>
+          </div>
+          <br />
+          <div class="no-gutters" formGroupName="passport">
+            <div class="form-group">
+              <label for="mobile">Passport Number</label>
+              <input formControlName="number" type="text"
+                oninput="this.value = this.value.replace(/[^a-zA-Z,0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                (ngModelChange)="modelChangeFn($event)" maxlength="10" class="form-control" id="passport"
+                placeholder="Passport number" [ngClass]="{
+                  'is-invalid': editFormSubmitted && registerForm.get('passport').get('number').errors
+                }" />
+            </div>
+            <div *ngIf="passportShow">
+              <div class="form-group">
+                <label for="country">Issuing Country</label>
+                <select formControlName="country" class="form-control" id="country" [ngClass]="{
+                  'is-invalid': editFormSubmitted && registerForm.get('passport').get('country').errors
+                }">
+                <option value="" selected disabled>Select Country</option>
+                <option value="India">India</option>
+                <option value="Usa">USA</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="text" formControlName="expiry" onfocus="(this.type='date')" placeholder="Expiry Date"
+                  class="form-control" [min]="minDate" id="expiryDate" [ngClass]="{
+                  'is-invalid': editFormSubmitted && registerForm.get('passport').get('expiry').errors
+                }" (keydown)="disableDate()" />
+              </div>
+            </div>
+          </div>
+          <ion-list lines="none">
+            <ion-item>
+              <ion-button (click)="onReset()" slot="end" fill="clear" class="text-capitalize save_button">Reset
+              </ion-button>
+              <ion-button (click)="onSaveEditTraveller()" slot="end" class="ml-2 save_button" shape="round"
+                color="tertiary">Save
+              </ion-button>
+            </ion-item>
+            <div class="modal_side"></div>
+          </ion-list>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

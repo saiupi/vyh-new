@@ -1,0 +1,54 @@
+
+ <nav class="navbar  mt-0 ">
+  <div class="container-fluid">
+    <a class="navbar-brand"><ion-icon
+      name="arrow-back-circle-outline" class="icon_styles4546" (click)="act_back()"></ion-icon></a>
+    <form class="d-flex">
+      <button class="btn ac_apply2 mr-2 btn_hover" (click)="clearpreferences()"  *ngIf="!clearstatus">
+        Clear
+      </button>
+      <button class="btn ac_apply mr-2 btn_hover" (click)="clearpreferences()"  *ngIf="clearstatus">
+        Clear
+      </button>
+      <button class="btn  ac_apply btn_hover btn_focus_bg_clr" (click)="SaveSelectedActivity()">
+        Apply
+      </button>
+    </form>
+  </div>
+</nav>
+
+
+
+<ion-grid class="mt-0">
+
+
+  <ion-row class="">
+    <ion-col class="container-fluid leftcol-background">
+      <div class="row">
+        <div
+          class="col-md-6 col-lg-4 card_size"
+          *ngFor="let a of activitiesPreferences; let i = index"
+          (click)="selectActivity(a.name, i, a.selecttrack)"
+        >
+          <div class="row">
+            <div class="p23">
+              <img src="{{ a.coverImageUrl }}" class="card_img text-center"
+              [ngClass]="a.selecttrack ? 'card_img_hover' : ''" />
+              <img
+                src="../../../assets/images/Group 51623.png"
+                class="select_bar img-fliud"
+                [ngClass]="a.selecttrack ? 'selectbar_display' : ''"
+              />
+              <button
+                class="cardbutton"
+                [ngClass]="a.selecttrack ? 'cardbutton_hover' : ''"
+              >
+                {{ a.name }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

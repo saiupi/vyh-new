@@ -1,0 +1,55 @@
+$secondary-color: #fbfaf8;
+$primary-color: #265359;
+.background_color {
+    background-color: $secondary-color;
+  }
+  .conform_text {
+    color: #000000;
+    font-size: 20px;
+    margin-left: 20px;
+  }
+  .image_size {
+    height: 80px;
+    width: 80px;
+  }
+  .content
+  {
+    display: flex;
+    justify-content: center;
+  }
+  .account_colour {
+    color: $primary-color;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .cancel_img
+  {
+    margin-left:-15px;
+     height:75%;
+     width: 100%;
+  }
+.cancel_msg
+{
+
+  font-size: 19px;
+  font-weight: 600;
+  color: red;
+  margin-left: 20px;
+}
+.cancel_res
+{
+  font-size: 15px;
+  font-weight: 600;
+  margin-left: 50px;
+}
+.rebook
+{
+  font-size: 19px;
+  font-weight: 600;
+  color: black;
+  margin-left: 20px;
+}
+.account_colour:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

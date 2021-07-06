@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="55.713" height="84.351" viewBox="0 0 55.713 84.351">
+  <g id="Group_133113" data-name="Group 133113" transform="translate(-932.287 -393.649)">
+    <path id="Icon_awesome-suitcase-rolling" data-name="Icon awesome-suitcase-rolling" d="M43.7,26.188H6.243C2.795,26.188,0,29.705,0,34.044V70.708c0,4.339,2.795,7.856,6.243,7.856H8.324v2.619A2.4,2.4,0,0,0,10.4,83.8h4.162a2.4,2.4,0,0,0,2.081-2.619V78.564H33.294v2.619A2.4,2.4,0,0,0,35.375,83.8h4.162a2.4,2.4,0,0,0,2.081-2.619V78.564H43.7c3.448,0,6.243-3.517,6.243-7.856V34.044C49.941,29.705,47.146,26.188,43.7,26.188ZM41.618,61.542a1.2,1.2,0,0,1-1.04,1.309H9.364a1.2,1.2,0,0,1-1.04-1.309V58.923a1.2,1.2,0,0,1,1.04-1.309H40.577a1.2,1.2,0,0,1,1.04,1.309Zm0-15.713a1.2,1.2,0,0,1-1.04,1.309H9.364a1.2,1.2,0,0,1-1.04-1.309V43.21A1.2,1.2,0,0,1,9.364,41.9H40.577a1.2,1.2,0,0,1,1.04,1.309ZM18.728,9.856H31.213V21.689h6.243V9.856C37.456,5.517,34.661,2,31.213,2H18.728c-3.448,0-6.243,3.517-6.243,7.856V21.689h6.243Z" transform="translate(932.287 391.649)" fill="#265359"/>
+    <g id="Group_133112" data-name="Group 133112" transform="translate(-35.742 4.258)">
+      <g id="Ellipse_886" data-name="Ellipse 886" transform="translate(992.742 442.742)" fill="#265359" stroke="#fff" stroke-width="2">
+        <circle cx="15.5" cy="15.5" r="15.5" stroke="none"/>
+        <circle cx="15.5" cy="15.5" r="14.5" fill="none"/>
+      </g>
+      <path id="Icon_feather-check" data-name="Icon feather-check" d="M19.005,9l-8.941,8.941L6,13.877" transform="translate(996.126 445.403)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,176 @@
+<!-- <ion-menu side="start" menuId="first" contentId="main" class="menu_width">
+  <ion-header class="bg-white">
+    <ion-toolbar color="grey">
+      <ion-title>
+        <ion-icon size="large" class="" name="person-circle-outline"></ion-icon>
+        Profile &emsp;
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="bg-white">
+    <ul class="menu_ul">
+      <li class="d-block text-dark" >
+        Timeline
+      </li>
+      <li class="d-block text-dark" >
+        Daily Plan
+      </li>
+      <li class="d-block text-dark" >
+        Flights
+      </li>
+      <li class="d-block text-dark" >
+        Stays
+      </li>
+
+      <li class="d-block text-dark" >
+        Activities
+      </li>
+      <li class="d-block text-dark" [routerLink]="['/about-us']">
+        About Us
+      </li>
+      <li class="d-block text-dark" [routerLink]="['/staycation']">
+        Staycations
+      </li>
+      <li class="d-block text-dark" data-amplify-analytics-on='click' data-amplify-analytics-name='PartnersModal'
+        data-amplify-analytics-attrs='menu' data-toggle="modal" data-target="#exampleModalCenter">
+        Partners
+      </li>
+    </ul>
+  </ion-content>
+</ion-menu> -->
+
+<div class="container-fluid position-relative p-0">
+      <div class="scrollmenu navbarBrand">
+        <button [ngClass]="(leftnav[0])?'active':''" (click)="leftnavclick(0)">Time line</button>
+        <button [ngClass]="(leftnav[1])?'active':''" (click)="leftnavclick(1)">Daily Plan</button>
+        <button [ngClass]="(leftnav[2])?'active':''" (click)="leftnavclick(2)">Flights</button>
+        <button [ngClass]="(leftnav[3])?'active':''" (click)="leftnavclick(3)">Stays</button>
+        <button [ngClass]="(leftnav[5])?'active':''" (click)="leftnavclick(5)">Activities</button>
+      </div>
+  <!-- <h1>GFVJA</h1> -->
+  <ion-grid class="container-fluid tm_grid_ht mobile_display">
+    <ion-row class="row" >
+      <ion-col class="col-lg-6 col-md-12 col-sm-12 p-0 tm_bg_clr">
+        <ul class="mb-0 bdr_btm_blk timelineprocess_nav">
+          <li class="mr-3 d-inline text-dark pt-2" [ngClass]="(leftnav[0])?'active':''" (click)="leftnavclick(0)">
+            Timeline
+          </li>
+          <li class="mr-3 d-inline text-dark pt-2" [ngClass]="(leftnav[1])?'active':''" (click)="leftnavclick(1)">
+            Daily Plan
+          </li>
+          <li class="mr-3 d-inline text-dark pt-2" [ngClass]="(leftnav[2])?'active':''" (click)="leftnavclick(2)">
+            Flights
+          </li>
+          <li class="mr-3 d-inline text-dark pt-2" [ngClass]="(leftnav[3])?'active':''" (click)="leftnavclick(3)">
+            Stays
+          </li>
+          <li class="mr-3 d-inline text-dark pt-2" [ngClass]="(leftnav[5])?'active':''" (click)="leftnavclick(5)">
+            Activities
+          </li>
+          <button data-amplify-analytics-on='click' data-amplify-analytics-name='TimeLineBookNow'
+            data-amplify-analytics-attrs='timeline' type="button" class="btn book_now ml-auto btn-sty btn_hover"
+            [ngClass]="bookNowFlag?'enable':''" (click)="routeToPreview()">Book Now</button>
+
+        </ul>
+        <hr class="timeline-line" />
+        <div class="tab-content" id="main">
+          <div *ngIf="leftnav[0]" class="left_scroll">
+            <app-timeline-process></app-timeline-process>
+          </div>
+          <div *ngIf="leftnav[1]" class="left_scroll">
+            <app-daily-plan></app-daily-plan>
+          </div>
+          <div *ngIf="leftnav[2]" class="left_scroll">
+            <app-flights></app-flights>
+          </div>
+          <div *ngIf="leftnav[3]" class="left_scroll">
+            <app-stays></app-stays>
+          </div>
+          <!-- <div *ngIf="leftnav[4]" class="left_scroll">
+            <app-transfers></app-transfers>
+          </div> -->
+          <div *ngIf="leftnav[5]" class="left_scroll">
+            <app-activities></app-activities>
+          </div>
+
+
+        <div class="footer">
+          <button data-amplify-analytics-on='click' data-amplify-analytics-name='TimeLineBookNow'
+            data-amplify-analytics-attrs='timeline' type="button" class="btn mobile_button ml-auto btn_hover"
+            [ngClass]="bookNowFlag?'enable':''" *ngIf="leftnav[0]" (click)="routeToPreview()">Book Now</button>
+          </div>
+        </div>
+      </ion-col>
+      <!-- [hidden]="!(visableStatus=='Activities')" -->
+      <ion-col *ngIf="visableStatus=='Activities'" class="col-12 col-lg-6 p-0 act_process_pos flt_bk_scroll">
+        <app-activity-process></app-activity-process>
+      </ion-col>
+      <ion-col *ngIf="visableStatus=='hotelTab'" class="col-12 col-lg-6 p-0 act_process_pos flt_bk_scroll">
+        <!-- added Hotel Component here .........!! -->
+        <app-hotels></app-hotels>
+      </ion-col>
+      <ion-col *ngIf="visableStatus=='ActivitiesPref'" class="col-12 col-lg-6 p-0 act_process_pos flt_bk_scroll">
+        <app-activity-process></app-activity-process>
+      </ion-col>
+      <ion-col *ngIf="visableStatus=='hotelTabPref'" class="col-12 col-lg-6 p-0 act_process_pos flt_bk_scroll">
+        <app-activity-process></app-activity-process>
+      </ion-col>
+
+      <!-- <ion-col  class="col-md-6 p-0 tme-lne-rt-display"><br/> -->
+      <!-- voyageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee -->
+
+      <ion-col *ngIf="visableStatus==''"
+        class="col-12 col-sm-4 col-xs-12 col-md-12 col-lg-6 col-xl-6 right_col tme-lne-rt-display">
+        <app-voyage></app-voyage>
+      </ion-col>
+      <!-- Journeyyyyyyyyyyyyyyyyyyyyyyyyy -->
+      <ion-col [hidden]="!(visableStatus==='Journey')" class="col-12 col-lg-6 flt_bk_scroll flt_bk_pos p-0">
+        <app-flights-booking></app-flights-booking>
+      </ion-col>
+      <ion-col [hidden]="!(visableStatus==='locationsOnMap')" class="col-12 col-lg-6 flt_bk_scroll flt_bk_pos p-0 mobDisplay">
+        <app-maps></app-maps>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <!--Partner Modal -->
+
+  <div #closeAddExpenseModal class="modal fade modal-contentt" id="exampleModalCenter" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-right mt-5" role="document">
+      <div class="modal-content">
+        <i class="mt-3 mr-3 fal fa-times-circle fa-lg partner_close" data-dismiss="modal"></i>
+        <div class="modal-body">
+
+          <form [formGroup]="partnerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label class="Partner_label">Enter Partner Code</label>
+              <input type="email" class="form-control" formControlName="PartnerName" placeholder="Partner code"
+                [ngClass]="{
+             'is-invalid': submitted && f.PartnerName.errors
+           }" />
+              <div *ngIf="submitted && f.PartnerName.errors" class="invalid-feedback">
+                <div *ngIf="f.PartnerName.errors.required">
+                  Partner name is required
+                </div>
+                <div *ngIf="f.PartnerName.errors.minlength">
+                  Enter valid Partner name
+                </div>
+              </div>
+              <div *ngIf="invalidPartner">
+                <p class="invalid_partner">Invalid partner code</p>
+              </div>
+              <div *ngIf="noPackage">
+                <p class="invalid_partner">No packages available</p>
+              </div>
+            </div>
+            <button data-amplify-analytics-on='click' data-amplify-analytics-name='PartnerCodeSubmit'
+              data-amplify-analytics-attrs='Partner' type="submit" class="partner_btn">Submit</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
